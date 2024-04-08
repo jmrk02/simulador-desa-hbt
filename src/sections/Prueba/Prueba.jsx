@@ -710,6 +710,7 @@ function Prueba() {
   };
 
   const handleDate = async (date) => {
+    console.log('prueba date', date)
     try {
       if (date === null) {
         //console.log('regrsa')
