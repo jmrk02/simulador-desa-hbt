@@ -147,6 +147,8 @@ function Prueba() {
     obtenerValorCuota,
   } = rentabilidadContext;
 
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
+
   //EFECTO AÑO
   useEffect(() => {
     let animationIntervalN1,
@@ -545,8 +547,8 @@ function Prueba() {
     const fecha = `${anio}-${mes}-${dia}`
     setMaxDate(dayjs(fecha));
 
-    const prueba = getLastValue(mes + 1, anio, true);
-    console.log('valor de prueba', prueba)
+    getLastValue(mes + 1, anio, true);
+    // console.log('valor de prueba', prueba)
     const digitosAnio = anio.toString().split("").map(function (caracter) {
       return parseInt(caracter, 10);
     });
@@ -579,7 +581,7 @@ function Prueba() {
 
     try {
       if (!texto) {
-
+        setFechaSeleccionada(null);
         setTerminado(false);
 
         setPositionN1(0);
@@ -692,7 +694,7 @@ function Prueba() {
     try {
       let lastValue
       const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
-      console.log('LASTEVALUE - PRE: ', response.rows)
+      // console.log('LASTEVALUE - PRE: ', response.rows)
       if (response.rows.length === 0) {
         const fecha = new Date();
         const mes = fecha.getMonth() - 1;
@@ -702,7 +704,7 @@ function Prueba() {
       } else {
         lastValue = response.rows.pop().fund2;
       }
-      console.log('LASTEVALUE: ', lastValue)
+      // console.log('LASTEVALUE: ', lastValue)
       return lastValue;
     } catch (error) {
       //console.log(error);
@@ -710,12 +712,12 @@ function Prueba() {
   };
 
   const handleDate = async (date) => {
-    console.log('prueba date', date)
     try {
       if (date === null) {
         //console.log('regrsa')
         return;
       }
+      setFechaSeleccionada(date);
       const mes = date["$M"];
       const ano = date["$y"];
 
@@ -1022,6 +1024,20 @@ function Prueba() {
     setSnackbarOpen(false);
   };
 
+  const disableBtn = (digitosAno, digitosMes, isInversion) => {
+    // return digitosAno && digitosMes && isInversion>= 0 ? false : true
+    if(digitosAno && digitosMes && isInversion){
+      return false;
+    }else{
+      if(digitosAno && digitosMes && isInversion === 0){
+        return false;
+      }else{
+        return true;
+      
+      }
+    }
+    // return digitosAno && digitosMes && isInversion ? false : true
+  }
 
   return (
     <div className="bg-paper py-5">
@@ -1607,8 +1623,7 @@ function Prueba() {
                   style={{ display: "none" }}
                   maxDate={maxDate}
                   minDate={dayjs(`2014-03-01`)}
-
-
+                  value={fechaSeleccionada}
                 />
               </LocalizationProvider>
             </Grid>
@@ -1616,7 +1631,9 @@ function Prueba() {
               <LoadingButton className="btn hbt-btn-primary btn-loading"
                 onClick={simularAnimacion}
                 loading={loadingBtn ? true : false}
-                disabled={digitosAno && digitosMes && isInversion ? false : true}
+                // disabled={digitosAno && digitosMes && isInversion>0 ? false : true}
+                disabled={disableBtn(digitosAno, digitosMes, isInversion)}
+
               >
                 <span>{texto ? (loadingBtn ? "" : "Simular ahora") : ("Volver a simular")}</span>
               </LoadingButton>
