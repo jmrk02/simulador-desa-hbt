@@ -667,8 +667,18 @@ function Prueba() {
 
   const getLastValue = async (monthValue, yearValue, isActualMonth) => {
     try {
+      let lastValue
       const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
-      let lastValue = response.rows.pop().fund2;
+      console.log('LASTEVALUE - PRE: ', response.rows)
+      if (response.rows.length === 0) {
+        console.log('MESMES: ' , monthValue)
+        if (monthValue < 1) {
+          
+        }
+      }else{
+        lastValue = response.rows.pop().fund2;
+      }
+      console.log('LASTEVALUE: ', lastValue)
       return lastValue;
     } catch (error) {
       //console.log(error);
@@ -711,9 +721,32 @@ function Prueba() {
         const lastValueNumber = lastValue.replace(/^S\/\s/, "");
         setLastRent(lastValueNumber);
 
-        let actualValue = await getLastValue(mes, ano, true);
-        const actualValueNumber = actualValue.replace(/^S\/\s/, "");
-        setNowRent(actualValueNumber);
+        //FECHA ACTUAL
+
+        let actualValue = await getLastValue(0, 0, true);
+
+        if (actualValue) {
+          const actualValueNumber = actualValue.replace(/^S\/\s/, "");
+          setNowRent(actualValueNumber);
+        }else{
+          const fechaActual = new Date();
+          for (let index = 1; index < 13; index++) {
+            fechaActual.setMonth(fechaActual.getMonth() - index);
+            let mesNewActual = fechaActual.getMonth() + 1;
+            let anioNewActual = fechaActual.getFullYear();
+
+            let actualNewValue = await getLastValue(mesNewActual, anioNewActual, false);
+           
+            if (actualNewValue) {
+              // console.log('mesNewActual: ', mesNewActual)
+              // console.log('actualNewValue: ', actualNewValue)
+              const actualValueNumber = actualNewValue.replace(/^S\/\s/, "");
+              setNowRent(actualValueNumber);
+              break;
+            }
+          }
+        }
+        
       }
     } catch (error) {
       //console.log(error);
