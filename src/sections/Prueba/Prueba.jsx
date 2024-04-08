@@ -556,23 +556,33 @@ function Prueba() {
   }, []);
 
   const handleCalculate = () => {
-
+    console.log('valor cuota 1', lastRent)
+    console.log('valor cuota 2', nowRent)
     let inversionUltima = isInversion / lastRent;
     let inversionActual = inversionUltima * nowRent;
     var entero = parseInt(inversionActual);
     setIsInversion(entero);
 
     posicionesNumerosInversion(entero.toString().length, entero);
-    let resultadoFinal = inversionActual - isInversion;
-    const porcentaje = (resultadoFinal / isInversion) * 100;
+    let rentabilidad = inversionActual - isInversion;
+    let saldoTotal = inversionActual.toFixed(2);
+    const porcentaje = (rentabilidad / isInversion) * 100;
+
+    var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
+    if(rentabilidadRedondeada === -0 ){
+      rentabilidad = -0.01;
+    }
+    if(saldoTotal == 1.00){
+      saldoTotal = 0.99;
+    }
+   
 
     setDatosInversion(
       isInversion,
-      resultadoFinal.toFixed(2),
-      inversionActual.toFixed(2),
+      rentabilidad,//rentabilidad
+      saldoTotal,//saldoTotal
       parseInt(porcentaje)
     );
-    // rentabilidadFondo2(isInversion, resultadoFinal);
     return parseInt(entero);
   };
 
@@ -1026,14 +1036,14 @@ function Prueba() {
 
   const disableBtn = (digitosAno, digitosMes, isInversion) => {
     // return digitosAno && digitosMes && isInversion>= 0 ? false : true
-    if(digitosAno && digitosMes && isInversion){
+    if (digitosAno && digitosMes && isInversion) {
       return false;
-    }else{
-      if(digitosAno && digitosMes && isInversion === 0){
+    } else {
+      if (digitosAno && digitosMes && isInversion === 0) {
         return false;
-      }else{
+      } else {
         return true;
-      
+
       }
     }
     // return digitosAno && digitosMes && isInversion ? false : true

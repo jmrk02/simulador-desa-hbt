@@ -60,7 +60,7 @@ const StcResultado = () => {
             let anioNewActual = fechaActual.getFullYear();
 
             let actualNewValue = await obtenerValorCuota(mesNewActual, anioNewActual, false);
-           
+
             if (actualNewValue.rows.length !== 0) {
               setIsLoadingValues(false)
               // console.log('mesNewActual RESULTADO: ', mesNewActual)
@@ -69,7 +69,7 @@ const StcResultado = () => {
               break;
             }
           }
-        }else{
+        } else {
           setIsLoadingValues(false)
         }
         // console.log('valorCuotaActualvalorCuotaActual :', valorCuotaActual)
@@ -156,14 +156,16 @@ const StcResultado = () => {
   };
 
   const formatearNumero = (numero) => {
-    // console.log("numero", numero);
-    if (numero === null) return null;
 
+    console.log("numeros que entra resultado", numero);
+
+    if (numero === null) return null;
+    if (numero === 0.99) return 0.99;
     const numeroRedondeado = Math.round(numero * 100) / 100;
-    ////console.log("numeroRedondeado", numeroRedondeado)
+
 
     let partes = numeroRedondeado.toString().split(".");
-    ////console.log("partes antes", partes)
+  
     if (parseInt(partes[0]) >= 1000000) {
       partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/, "'");
 
@@ -171,7 +173,9 @@ const StcResultado = () => {
     } else {
       partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    ////console.log("partes despues", partes)
+
+
+
 
     return partes.join(".");
   };
@@ -257,8 +261,8 @@ const StcResultado = () => {
                             <span className="card-mounth d-block">
                               {
                                 isLoadingValues ? <CircularProgress color="error" /> : (<>
-                                {/* S/ {total ? formatearNumero(total) : "35,000.67"} */}
-                                S/ {total ? formatearNumero(total) : "35,000.67"}
+                                  {/* S/ {total ? formatearNumero(total) : "35,000.67"} */}
+                                  S/ {total ? formatearNumero(total) : "35,000.67"}
                                 </>
                                 )
                               }
@@ -276,7 +280,7 @@ const StcResultado = () => {
                             <span className="ps-2 ft-number">
                               {
                                 isLoadingValues ? <CircularProgress color="error" /> : (<>
-                                {porcentajeGana}%
+                                  {porcentajeGana}%
                                 </>)
                               }
                             </span>
@@ -378,7 +382,7 @@ const StcResultado = () => {
                               <span className="icon-disclaimer">*</span>
                             </>
                           )
-                        } 
+                        }
                       </span>
                       {step === 1 && (
                         <div className="mt-n4" id="json-animation-here-1"></div>
