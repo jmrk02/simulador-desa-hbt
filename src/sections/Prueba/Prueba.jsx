@@ -123,7 +123,14 @@ function Prueba() {
   const [coma6Dig, setComa6Dig] = useState(false);
 
   const [lastRent, setLastRent] = useState(null);
+
+  const [lastRent1, setLastRent1] = useState(null);
+  const [lastRent2, setLastRent2] = useState(null);
+  const [lastRent3, setLastRent3] = useState(null);
   const [nowRent, setNowRent] = useState(null);
+  const [nowRent1, setNowRent1] = useState(null);
+  const [nowRent2, setNowRent2] = useState(null);
+  const [nowRent3, setNowRent3] = useState(null);
 
   //VARIABLES INICIALES
   const [mesLimite, setMesLimite] = useState(0);
@@ -553,7 +560,6 @@ function Prueba() {
     setMaxDate(dayjs(fecha));
 
     getLastValue(mes + 1, anio, true);
-    // console.log('valor de prueba', prueba)
     const digitosAnio = anio.toString().split("").map(function (caracter) {
       return parseInt(caracter, 10);
     });
@@ -577,10 +583,6 @@ function Prueba() {
       rentabilidad = -0.01;
       saldoTotal = saldoTotal - 0.01;
     }
-    // if(saldoTotal == 1.00){
-    //   saldoTotal = 0.99;
-    // }
-
 
     setDatosInversion(
       isInversion,
@@ -621,6 +623,15 @@ function Prueba() {
         setDigitosAno([]);
         //setear el step a fondo 2
         setStepRenta(false);
+
+        posicionesNumerosInversion(5, "");
+
+        setPositionINV1(posicionesAno[0]);
+        setPositionINV2(posicionesAno[0]);
+        setPositionINV3(posicionesAno[0]);
+        setPositionINV4(posicionesAno[0]);
+        setPositionINV5(posicionesAno[0]);
+
       } else {
         setStepRenta(true);
         let response = handleCalculate();
@@ -707,11 +718,32 @@ function Prueba() {
     // setAbrirCalendar(true);
   };
 
+  const getQuotaValue = async (monthValue, yearValue, isActualMonth, fondo) => {
+    try {
+      let lastValue
+      const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
+      if (response.rows.length > 0) {
+        switch (fondo) {
+          case 1:
+            lastValue = response.rows.pop().fund1;
+            break;
+          case 2:
+            lastValue = response.rows.pop().fund2;
+            break;
+          case 3:
+            lastValue = response.rows.pop().fund3;
+            break;
+        }
+      }
+      return lastValue;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const getLastValue = async (monthValue, yearValue, isActualMonth) => {
     try {
       let lastValue
       const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
-      // console.log('LASTEVALUE - PRE: ', response.rows)
       if (response.rows.length === 0) {
         const fecha = new Date();
         const mes = fecha.getMonth() - 1;
@@ -719,20 +751,20 @@ function Prueba() {
         const fechafi = `${anio}-${mes}-15`
         setMaxDate(dayjs(fechafi));
       } else {
+        console.log('valores cuota')
+        console.log(response.rows.pop())
         lastValue = response.rows.pop().fund2;
       }
-      // console.log('LASTEVALUE: ', lastValue)
       return lastValue;
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   };
 
   const handleDate = async (date) => {
     try {
-      console.log('fecha handle', date)
+
       if (date === null) {
-        //console.log('regrsa')
         return;
       }
       setFechaSeleccionada(date);
@@ -796,9 +828,6 @@ function Prueba() {
   };
 
   const handleNumeroInversion = (num) => {
-    console.log('numero de inversion caso', num.target.value)
-    console.log('numero de inversion caso tipo', typeof num.target.value)
-
     const inputValue = num.target.value.replace(/[^\d]/g, '');
     if (num.target.value.includes(".")) {
       // Vaciar el campo si incluye un punto
@@ -989,6 +1018,7 @@ function Prueba() {
       .toString()
       .split("")
       .map((i) => parseInt(i, 10));
+
     setDigitosInversion(digitos);
     setPositionINV1(posicionesAno[digitos[0]]);
     setRunningInv1(false);
@@ -1041,7 +1071,6 @@ function Prueba() {
   };
 
   const disableBtn = (digitosAno, digitosMes, isInversion) => {
-    console.log('digitosAno', digitosAno)
     if (digitosAno.length > 0 && isInversion) {
       return false;
     } else {
@@ -1628,7 +1657,7 @@ function Prueba() {
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
-                localeText={{okButtonLabel: 'Aceptar',cancelButtonLabel: 'Cancelar',datePickerToolbarTitle: 'Seleccionar fecha'}}
+                localeText={{ okButtonLabel: 'Aceptar', cancelButtonLabel: 'Cancelar', datePickerToolbarTitle: 'Seleccionar fecha' }}
               >
                 <MobileDatePicker
                   open={abrirCalendar}
@@ -1640,7 +1669,7 @@ function Prueba() {
                   maxDate={maxDate}
                   minDate={dayjs(`2014-03-01`)}
                   value={fechaSeleccionada}
-                  
+
                 />
               </LocalizationProvider>
             </Grid>
