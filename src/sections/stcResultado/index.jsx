@@ -156,6 +156,7 @@ const StcResultado = () => {
   };
 
   const formatearNumero = (numero) => {
+    // console.log("numero", numero);
     if (numero === null) return null;
 
     const numeroRedondeado = Math.round(numero * 100) / 100;
@@ -256,6 +257,7 @@ const StcResultado = () => {
                             <span className="card-mounth d-block">
                               {
                                 isLoadingValues ? <CircularProgress color="error" /> : (<>
+                                {/* S/ {total ? formatearNumero(total) : "35,000.67"} */}
                                 S/ {total ? formatearNumero(total) : "35,000.67"}
                                 </>
                                 )

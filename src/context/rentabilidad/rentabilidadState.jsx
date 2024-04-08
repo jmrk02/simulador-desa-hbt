@@ -63,13 +63,13 @@ const RentabilidadState = (props) => {
         mesActual = fechaActual.getMonth() + 1;
         anioActual = fechaActual.getFullYear();
 
-        console.log("Número del mes anterior:", mesActual);
-        console.log("Año del mes anterior:", anioActual);
+        // console.log("Número del mes anterior:", mesActual);
+        // console.log("Año del mes anterior:", anioActual);
       } else {
         mesActual = monthValue + 1;
         anioActual = yearValue;
-        console.log('MES SELECCIONADO: ', mesActual)
-        console.log('ANIO SELECCIONADO: ',anioActual)
+        // console.log('MES SELECCIONADO: ', mesActual)
+        // console.log('ANIO SELECCIONADO: ',anioActual)
       }
       const requestOptions = {
         method: "POST",

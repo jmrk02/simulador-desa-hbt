@@ -537,15 +537,16 @@ function Prueba() {
   useEffect(() => {
     const fechaActual = new Date();
     const anio = fechaActual.getFullYear();
-    let mes = fechaActual.getMonth(); 
-    mes = mes < 10 ? '0' + mes : mes; 
+    let mes = fechaActual.getMonth();
+    mes = mes < 10 ? '0' + mes : mes;
     let dia = fechaActual.getDate();
     dia = dia < 10 ? '0' + dia : dia;
     setMesLimite(fechaActual.getMonth());
     const fecha = `${anio}-${mes}-${dia}`
     setMaxDate(dayjs(fecha));
 
-
+    const prueba = getLastValue(mes + 1, anio, true);
+    console.log('valor de prueba', prueba)
     const digitosAnio = anio.toString().split("").map(function (caracter) {
       return parseInt(caracter, 10);
     });
@@ -693,11 +694,12 @@ function Prueba() {
       const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
       console.log('LASTEVALUE - PRE: ', response.rows)
       if (response.rows.length === 0) {
-        console.log('MESMES: ' , monthValue)
-        if (monthValue < 1) {
-          
-        }
-      }else{
+        const fecha = new Date();
+        const mes = fecha.getMonth() - 1;
+        const anio = fecha.getFullYear();
+        const fechafi = `${anio}-${mes}-15`
+        setMaxDate(dayjs(fechafi));
+      } else {
         lastValue = response.rows.pop().fund2;
       }
       console.log('LASTEVALUE: ', lastValue)
@@ -750,7 +752,7 @@ function Prueba() {
         if (actualValue) {
           const actualValueNumber = actualValue.replace(/^S\/\s/, "");
           setNowRent(actualValueNumber);
-        }else{
+        } else {
           const fechaActual = new Date();
           for (let index = 1; index < 13; index++) {
             fechaActual.setMonth(fechaActual.getMonth() - index);
@@ -758,7 +760,7 @@ function Prueba() {
             let anioNewActual = fechaActual.getFullYear();
 
             let actualNewValue = await getLastValue(mesNewActual, anioNewActual, false);
-           
+
             if (actualNewValue) {
               // console.log('mesNewActual: ', mesNewActual)
               // console.log('actualNewValue: ', actualNewValue)
@@ -768,7 +770,7 @@ function Prueba() {
             }
           }
         }
-        
+
       }
     } catch (error) {
       //console.log(error);
