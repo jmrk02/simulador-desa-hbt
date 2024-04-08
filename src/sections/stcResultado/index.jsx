@@ -6,6 +6,7 @@ import { useContext } from "react";
 import RentabilidadContext from "../../context/rentabilidad/rentabilidadContext";
 import { DotLottiePlayer } from "@dotlottie/player-component";
 import { set } from "date-fns";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StcResultado = () => {
   const [animationPlayedFirst, setAnimationPlayedFirst] = useState(false);
@@ -20,6 +21,7 @@ const StcResultado = () => {
   const [renta, setRenta] = useState(null);
   const [porcentajeGana, setPorcentajeGana] = useState(null);
   const [invertidoAnios, setInvertidoAnios] = useState(null);
+  const [isLoadingValues, setIsLoadingValues] = useState(false)
 
   const rentabilidadContext = useContext(RentabilidadContext);
   const {
@@ -41,12 +43,36 @@ const StcResultado = () => {
         // //console.log("porcentaje", porcentaje);
         // //console.log("rentabilidad", rentabilidad);
         // //console.log("inversionInicial", inversionInicial);
-
+        setIsLoadingValues(true)
         setTotal(saldoTotal);
         setStep(step);
         setInversionIni(inversionInicial);
         const valorCuotaLast = await obtenerValorCuota(mes, anio, false);
-        const valorCuotaActual = await obtenerValorCuota(mes, anio, true);
+        let valorCuotaActual = await obtenerValorCuota(mes, anio, true);
+        // console.log('valorCuotaActual TOP : ', valorCuotaActual)
+        if (valorCuotaActual.rows.length === 0) {
+          setIsLoadingValues(true)
+          // console.log('REVENTO')
+          const fechaActual = new Date();
+          for (let index = 1; index < 13; index++) {
+            fechaActual.setMonth(fechaActual.getMonth() - index);
+            let mesNewActual = fechaActual.getMonth() + 1;
+            let anioNewActual = fechaActual.getFullYear();
+
+            let actualNewValue = await obtenerValorCuota(mesNewActual, anioNewActual, false);
+           
+            if (actualNewValue.rows.length !== 0) {
+              setIsLoadingValues(false)
+              // console.log('mesNewActual RESULTADO: ', mesNewActual)
+              // console.log('actualNewValue RESULTADO: ', actualNewValue)
+              valorCuotaActual = actualNewValue
+              break;
+            }
+          }
+        }else{
+          setIsLoadingValues(false)
+        }
+        // console.log('valorCuotaActualvalorCuotaActual :', valorCuotaActual)
         let lastValue;
         let actualValue;
         switch (step) {
@@ -114,7 +140,7 @@ const StcResultado = () => {
     });
 
     if (!animationStep && inversionInicial) {
-      console.log("PLAY");
+      console.log("PLAY2");
       animation.goToAndPlay(0, true);
     } else {
       console.log("REPLAY");
@@ -228,7 +254,12 @@ const StcResultado = () => {
                               Saldo total
                             </span>
                             <span className="card-mounth d-block">
-                              S/ {total ? formatearNumero(total) : "35,000.67"}
+                              {
+                                isLoadingValues ? <CircularProgress color="error" /> : (<>
+                                S/ {total ? formatearNumero(total) : "35,000.67"}
+                                </>
+                                )
+                              }
                             </span>
                           </div>
                         </div>
@@ -241,7 +272,11 @@ const StcResultado = () => {
                               Porcentaje de ganancia:
                             </strong>{" "}
                             <span className="ps-2 ft-number">
-                              {porcentajeGana}%
+                              {
+                                isLoadingValues ? <CircularProgress color="error" /> : (<>
+                                {porcentajeGana}%
+                                </>)
+                              }
                             </span>
                           </div>
                           <div className="col-auto">
@@ -279,7 +314,9 @@ const StcResultado = () => {
                               Inversión inicial
                             </span>
                             <span className="card-mounth d-block">
-                              S/ {formatearNumero(inversionIni)}
+                              {
+                                isLoadingValues ? <CircularProgress color="error" /> : (<>S/ {formatearNumero(inversionIni)}</>)
+                              }
                             </span>
                           </div>
                         </div>
@@ -290,7 +327,9 @@ const StcResultado = () => {
                           <div className="col-auto d-flex align-items-center">
                             <strong className="ft-txt">Invertido en:</strong>{" "}
                             <span className="ps-2 ft-number">
-                              {invertidoAnios} años
+                              {
+                                isLoadingValues ? <CircularProgress color="error" /> : (<>{invertidoAnios} años</>)
+                              }
                             </span>
                           </div>
                           <div className="col-auto">
@@ -330,8 +369,14 @@ const StcResultado = () => {
                         Tu fondo hubiera generado la siguiente rentabilidad
                       </p>
                       <span className="mounth-rentabilidad">
-                        S/ {formatearNumero(renta)}{" "}
-                        <span className="icon-disclaimer">*</span>
+                        {
+                          isLoadingValues ? <CircularProgress color="error" /> : (
+                            <>
+                              S/ {formatearNumero(renta)}{" "}
+                              <span className="icon-disclaimer">*</span>
+                            </>
+                          )
+                        } 
                       </span>
                       {step === 1 && (
                         <div className="mt-n4" id="json-animation-here-1"></div>
