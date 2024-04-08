@@ -107,7 +107,7 @@ const StcResultado = () => {
         // console.log("rentabilidadRedondeada", rentabilidadRedondeada);
         // console.log("saldoTotalF", saldoTotalF);
         // const rentabilidadF = rentabilidadFinal.toFixed(2);
-       
+
 
         // var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
         if (rentabilidadRedondeada === -0) {
@@ -452,11 +452,10 @@ const StcResultado = () => {
 
             <div className="disclaimer" style={{ marginTop: "1rem" }}>
               * Los resultados de los montos de rentabilidad se basan en una
-              estimación que toma como referencia el valor cuota del último día
-              del mes seleccionado. Es importante tener en cuenta que estos
-              resultados son proyecciones y no constituyen un compromiso por
-              parte de la AFP para garantizar un monto de
-              rentabilidad específico.
+              estimación que toma como referencia el último valor cuota vigente.
+              Es importante tener en cuenta que estos resultados son proyecciones y
+              no constituyen un compromiso por parte de la AFP para garantizar
+              un monto de rentabilidad específico.
             </div>
             {/* MODAL */}
             <div
