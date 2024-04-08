@@ -100,10 +100,26 @@ const StcResultado = () => {
         let inversionUltima = inversionInicial / lastRent;
         let inversionActual = inversionUltima * nowRent;
 
-        let rentabilidadFinal = inversionActual - inversionInicial;
+        let rentabilidadF = inversionActual - inversionInicial;
+        let saldoTotalF = inversionActual.toFixed(2);
+        var rentabilidadRedondeada = Math.round(rentabilidadF * 100) / 100;
+        // console.log("rentabilidadF", rentabilidadF);
+        // console.log("rentabilidadRedondeada", rentabilidadRedondeada);
+        // console.log("saldoTotalF", saldoTotalF);
+        // const rentabilidadF = rentabilidadFinal.toFixed(2);
+       
 
-        setTotal(inversionActual.toFixed(2));
-        setRenta(rentabilidadFinal.toFixed(2));
+        // var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
+        if (rentabilidadRedondeada === -0) {
+          rentabilidadF = -0.01;
+          saldoTotalF = saldoTotalF - 0.01;
+        }
+        // if (saldoTotalF == 1.00) {
+        //   saldoTotalF = 0.99;
+        // }
+
+        setTotal(saldoTotalF);
+        setRenta(rentabilidadF);
         setInversionIni(inversionInicial);
 
         const porcentajetotal = (rentabilidadFinal / inversionInicial) * 100;
@@ -157,15 +173,13 @@ const StcResultado = () => {
 
   const formatearNumero = (numero) => {
 
-    console.log("numeros que entra resultado", numero);
-
     if (numero === null) return null;
     if (numero === 0.99) return 0.99;
     const numeroRedondeado = Math.round(numero * 100) / 100;
 
 
     let partes = numeroRedondeado.toString().split(".");
-  
+
     if (parseInt(partes[0]) >= 1000000) {
       partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/, "'");
 

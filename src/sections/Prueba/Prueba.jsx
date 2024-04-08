@@ -298,7 +298,7 @@ function Prueba() {
       animationIntervalInv1 = setInterval(() => {
         setPositionINV1((prevPosition) => {
           if (posicionesAno.indexOf(prevPosition) === digitosInversion[0]) {
-            console.log('entrando a la simulacion')
+            // console.log('entrando a la simulacion')
             setRunningInv1(false);
             clearInterval(animationIntervalInv1);
           } else {
@@ -504,7 +504,7 @@ function Prueba() {
       !runningInv10 &&
       terminado
     ) {
-      console.log('termina toda la simulacion')
+      // console.log('termina toda la simulacion')
       setTexto(!texto);
       setLoadingBtn(false)
     }
@@ -556,8 +556,7 @@ function Prueba() {
   }, []);
 
   const handleCalculate = () => {
-    console.log('valor cuota 1', lastRent)
-    console.log('valor cuota 2', nowRent)
+  
     let inversionUltima = isInversion / lastRent;
     let inversionActual = inversionUltima * nowRent;
     var entero = parseInt(inversionActual);
@@ -571,10 +570,11 @@ function Prueba() {
     var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
     if(rentabilidadRedondeada === -0 ){
       rentabilidad = -0.01;
+      saldoTotal = saldoTotal - 0.01;
     }
-    if(saldoTotal == 1.00){
-      saldoTotal = 0.99;
-    }
+    // if(saldoTotal == 1.00){
+    //   saldoTotal = 0.99;
+    // }
    
 
     setDatosInversion(
