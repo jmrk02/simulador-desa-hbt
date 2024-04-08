@@ -1628,7 +1628,7 @@ function Prueba() {
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
-                localeText={{okButtonLabel: 'Esta bien',cancelButtonLabel: 'Cancelar',datePickerToolbarTitle: 'Seleccionar fecha'}}
+                localeText={{okButtonLabel: 'Aceptar',cancelButtonLabel: 'Cancelar',datePickerToolbarTitle: 'Seleccionar fecha'}}
               >
                 <MobileDatePicker
                   open={abrirCalendar}
