@@ -633,6 +633,7 @@ function Prueba() {
         setPositionINV5(posicionesAno[0]);
 
       } else {
+        //ENTRA ACA PARA OCULTAR EL DIV
         setStepRenta(true);
         let response = handleCalculate();
         setLoadingBtn(true)

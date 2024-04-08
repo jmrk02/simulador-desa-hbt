@@ -238,3 +238,16 @@ dotlottie-player {
 .transicion-renta.mostrar {
   opacity: 1; /* Se muestra cuando la clase mostrar está presente */
 }
+
+.renta-title{
+  font-size: 1rem;
+}
+.renta-descrip{
+ font-size : 1.25rem;
+ line-height: 1.375rem;
+ color: #ce1335;
+ font-weight: 700;
+}
+.fondos-btn{
+  margin-left: 4.5rem;
+}

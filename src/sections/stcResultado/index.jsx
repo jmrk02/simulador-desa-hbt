@@ -23,6 +23,10 @@ const StcResultado = () => {
   const [invertidoAnios, setInvertidoAnios] = useState(null);
   const [isLoadingValues, setIsLoadingValues] = useState(false)
 
+  const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
+  
+  const [mesActual, setMesActual] = useState(new Date().getMonth())
+  const [anioActual, setAnioActual] = useState(new Date().getFullYear())
   const rentabilidadContext = useContext(RentabilidadContext);
   const {
     mes,
@@ -207,7 +211,7 @@ const StcResultado = () => {
     // if(fondo){
     //   setStep(2)
     // }
-    
+
   }, [step, inversionInicial]);
 
   useEffect(() => {
@@ -215,13 +219,15 @@ const StcResultado = () => {
     if (fondo) {
       handleFound(2);
     }
-  }, [fondo]); 
+  }, [fondo]);
 
   useEffect(() => {
     setAnimationPlayedSecond(false);
   }, []);
 
   useEffect(() => {
+    console.log("mes seleccionado", mes);
+    console.log("anio seleccionado", anio);
     setInversionIni(inversionInicial);
     setTotal(saldoTotal);
     setRenta(rentabilidad);
@@ -246,25 +252,32 @@ const StcResultado = () => {
         {saldoTotal ? (
           <div className={`transicion-renta ${saldoTotal ? "mostrar" : ""}`}>
             <div className="header-pills d-flex align-items-center mb-4">
-              <h5 className="card-title me-3">Rentabilidad proyectada en: </h5>
-              <div className="d-flex">
-                <div
-                  className={step === 1 ? "btn-active" : "btn-inactive"}
-                  onClick={() => handleFound(1)}
-                >
-                  Fondo 1
+              <div className="container row">
+                <div className="col-lg-4 col-xs-12">
+                  <h5 className="card-title me-3 renta-title">Rentabilidad proyectada de </h5>
+                  <h5 className="card-title me-3 renta-descrip">{meses[mes]} del {anio} a { meses[mesActual] } del {anioActual} en : </h5>
                 </div>
-                <div
-                  className={step === 2 ? "btn-active" : "btn-inactive"}
-                  onClick={() => handleFound(2)}
-                >
-                  Fondo 2
-                </div>
-                <div
-                  className={step === 3 ? "btn-active" : "btn-inactive"}
-                  onClick={() => handleFound(3)}
-                >
-                  Fondo 3
+                <div className="col-lg-5 col-xs-12 fondos-btn d-flex">
+                  <div className="d-flex">
+                    <div
+                      className={step === 1 ? "btn-active" : "btn-inactive"}
+                      onClick={() => handleFound(1)}
+                    >
+                      Fondo 1
+                    </div>
+                    <div
+                      className={step === 2 ? "btn-active" : "btn-inactive"}
+                      onClick={() => handleFound(2)}
+                    >
+                      Fondo 2
+                    </div>
+                    <div
+                      className={step === 3 ? "btn-active" : "btn-inactive"}
+                      onClick={() => handleFound(3)}
+                    >
+                      Fondo 3
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
