@@ -614,6 +614,7 @@ function Prueba() {
         setPositionINV10(0);
         setIsInversion("");
         setTexto(!texto);
+        setDigitosAno([]);
         //setear el step a fondo 2
         setStepRenta(false);
       } else {
@@ -794,9 +795,9 @@ function Prueba() {
     console.log('numero de inversion caso',num.target.value)
     console.log('numero de inversion caso tipo',typeof num.target.value)
    
-    const inputValue = num.target.value;
-    if (inputValue.includes(".")) {
-      setIsInversion(""); // Vaciar el campo si incluye un punto
+    const inputValue = num.target.value.replace(/[^\d]/g, '');
+    if (num.target.value.includes(".")) {
+       // Vaciar el campo si incluye un punto
       setSnackbarOpen(true);
     } else {
       setSnackbarOpen(false);
@@ -1036,10 +1037,11 @@ function Prueba() {
   };
 
   const disableBtn = (digitosAno, digitosMes, isInversion) => {
-    if (digitosAno  && isInversion) {
+    console.log('digitosAno', digitosAno)
+    if (digitosAno.length>0  && isInversion) {
       return false;
     } else {
-      if (digitosAno  && isInversion === 0) {
+      if (digitosAno.length>0  && isInversion === 0) {
         return false;
       } else {
         return true;
