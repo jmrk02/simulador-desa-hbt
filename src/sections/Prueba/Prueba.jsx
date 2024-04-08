@@ -13,8 +13,12 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+// import { MobileDatePicker } from '@mui/lab';
 import "dayjs/locale/es";
 import dayjs from "dayjs";
+
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import esLocale from "date-fns/locale/es";
 
 import { makeStyles } from "@mui/styles";
 import { set } from "date-fns";
@@ -51,7 +55,7 @@ function Prueba() {
   const [digitosMes, setDigitosMes] = useState(0);
   const [positionM1, setPositionM1] = useState(0);
   const posicionMes = [
-    0, 8, 16, 24.5, 32.5, 40.5, 48.5, 56.5, 65, 73, 81.5, 89.5,
+    0, 8, 16, 24.5, 32.5, 40.5, 48.5, 57, 65, 73, 81.5, 89.5,
   ];
 
   const [digitosAno, setDigitosAno] = useState([]);
@@ -557,7 +561,7 @@ function Prueba() {
   }, []);
 
   const handleCalculate = () => {
-  
+
     let inversionUltima = isInversion / lastRent;
     let inversionActual = inversionUltima * nowRent;
     var entero = parseInt(inversionActual);
@@ -569,14 +573,14 @@ function Prueba() {
     const porcentaje = (rentabilidad / isInversion) * 100;
 
     var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
-    if(rentabilidadRedondeada === -0 ){
+    if (rentabilidadRedondeada === -0) {
       rentabilidad = -0.01;
       saldoTotal = saldoTotal - 0.01;
     }
     // if(saldoTotal == 1.00){
     //   saldoTotal = 0.99;
     // }
-   
+
 
     setDatosInversion(
       isInversion,
@@ -792,12 +796,12 @@ function Prueba() {
   };
 
   const handleNumeroInversion = (num) => {
-    console.log('numero de inversion caso',num.target.value)
-    console.log('numero de inversion caso tipo',typeof num.target.value)
-   
+    console.log('numero de inversion caso', num.target.value)
+    console.log('numero de inversion caso tipo', typeof num.target.value)
+
     const inputValue = num.target.value.replace(/[^\d]/g, '');
     if (num.target.value.includes(".")) {
-       // Vaciar el campo si incluye un punto
+      // Vaciar el campo si incluye un punto
       setSnackbarOpen(true);
     } else {
       setSnackbarOpen(false);
@@ -1038,10 +1042,10 @@ function Prueba() {
 
   const disableBtn = (digitosAno, digitosMes, isInversion) => {
     console.log('digitosAno', digitosAno)
-    if (digitosAno.length>0  && isInversion) {
+    if (digitosAno.length > 0 && isInversion) {
       return false;
     } else {
-      if (digitosAno.length>0  && isInversion === 0) {
+      if (digitosAno.length > 0 && isInversion === 0) {
         return false;
       } else {
         return true;
@@ -1624,9 +1628,9 @@ function Prueba() {
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
+                localeText={{okButtonLabel: 'Esta bien',cancelButtonLabel: 'Cancelar',datePickerToolbarTitle: 'Seleccionar fecha'}}
               >
                 <MobileDatePicker
-                  locale="es"
                   open={abrirCalendar}
                   onClose={() => setAbrirCalendar(false)}
                   onChange={handleDate}
@@ -1636,6 +1640,7 @@ function Prueba() {
                   maxDate={maxDate}
                   minDate={dayjs(`2014-03-01`)}
                   value={fechaSeleccionada}
+                  
                 />
               </LocalizationProvider>
             </Grid>
