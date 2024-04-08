@@ -56,7 +56,7 @@ const StcResultado = () => {
           const fechaActual = new Date();
           for (let index = 1; index < 13; index++) {
             fechaActual.setMonth(fechaActual.getMonth() - index);
-            let mesNewActual = fechaActual.getMonth() + 1;
+            let mesNewActual = fechaActual.getMonth();
             let anioNewActual = fechaActual.getFullYear();
 
             let actualNewValue = await obtenerValorCuota(mesNewActual, anioNewActual, false);
