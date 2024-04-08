@@ -25,6 +25,11 @@ export default (state, action) => {
                 porcentaje: action.payload.porcentaje
                 
             }
+        case 'REINICIAR_FONDO':
+            return {
+                ...state,
+                fondo: action.payload.fondo
+            }
             break;
     }
 }

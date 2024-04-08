@@ -21,7 +21,7 @@ import { set } from "date-fns";
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import { is } from "date-fns/locale";
+import { is, tr } from "date-fns/locale";
 import LoadingButton from '@mui/lab/LoadingButton';
 const useStyles = makeStyles({
   root: {
@@ -145,6 +145,7 @@ function Prueba() {
     setDatosInversion,
     setMesAnio,
     obtenerValorCuota,
+    setStepRenta
   } = rentabilidadContext;
 
   const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
@@ -613,9 +614,10 @@ function Prueba() {
         setPositionINV10(0);
         setIsInversion("");
         setTexto(!texto);
-
+        //setear el step a fondo 2
+        setStepRenta(false);
       } else {
-
+        setStepRenta(true);
         let response = handleCalculate();
         setLoadingBtn(true)
 
@@ -723,6 +725,7 @@ function Prueba() {
 
   const handleDate = async (date) => {
     try {
+      console.log('fecha handle', date)
       if (date === null) {
         //console.log('regrsa')
         return;
@@ -745,9 +748,6 @@ function Prueba() {
         setPositionN2(posicionesAno[anos[1]]);
         setPositionN3(posicionesAno[anos[2]]);
         setPositionN4(posicionesAno[anos[3]]);
-        // if (isInversion.length > 0) {
-        //   setHabilitarSimulacion(true);
-        // }
       }
       if (ano.length === 0) {
         setErrorFechaText("Seleccione una fecha");
@@ -791,24 +791,25 @@ function Prueba() {
   };
 
   const handleNumeroInversion = (num) => {
-    if (num.target.value === undefined) {
-      setIsInversion("");
-    }
-
-    if (num.target.value.includes(".")) {
+    console.log('numero de inversion caso',num.target.value)
+    console.log('numero de inversion caso tipo',typeof num.target.value)
+   
+    const inputValue = num.target.value;
+    if (inputValue.includes(".")) {
+      setIsInversion(""); // Vaciar el campo si incluye un punto
       setSnackbarOpen(true);
     } else {
       setSnackbarOpen(false);
+      // Eliminar ceros y manejar el valor según sea necesario
+      let numero = eliminarCeros(inputValue);
+      if (numero.startsWith("0")) {
+        setIsInversion("");
+      } else {
+        setIsInversion(numero);
+        let longitud = numero.length;
+        posicionesNumerosInversion(longitud, numero);
+      }
     }
-    let numero = eliminarCeros(num.target.value);
-    if (numero.startsWith("0")) {
-      setIsInversion("")
-    } else {
-      setIsInversion(numero);
-      let longitud = numero.length;
-      posicionesNumerosInversion(longitud, numero);
-    }
-
   };
 
   const eliminarCeros = (numero) => {
@@ -1035,11 +1036,10 @@ function Prueba() {
   };
 
   const disableBtn = (digitosAno, digitosMes, isInversion) => {
-    // return digitosAno && digitosMes && isInversion>= 0 ? false : true
-    if (digitosAno && digitosMes && isInversion) {
+    if (digitosAno  && isInversion) {
       return false;
     } else {
-      if (digitosAno && digitosMes && isInversion === 0) {
+      if (digitosAno  && isInversion === 0) {
         return false;
       } else {
         return true;

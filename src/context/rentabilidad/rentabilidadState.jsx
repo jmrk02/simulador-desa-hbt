@@ -10,6 +10,7 @@ const RentabilidadState = (props) => {
     rentabilidad: null,
     mes: null,
     anio: null,
+    fondo: null,
   };
 
   const rentabilidadFondo2 = (montoInicial, rentabilidad) => {
@@ -35,6 +36,14 @@ const RentabilidadState = (props) => {
       },
     });
   };
+  const setStepRenta = (step) => {
+    dispatch({
+      type: "REINICIAR_FONDO",
+      payload: {
+        fondo: step,
+      }
+    });
+  }
 
   const setDatosInversion = (
     inversionInicial,
@@ -117,10 +126,12 @@ const RentabilidadState = (props) => {
         rentabilidad: state.rentabilidad,
         mes: state.mes,
         anio: state.anio,
+        fondo: state.fondo,
         rentabilidadFondo2,
         setMesAnio,
         setDatosInversion,
         obtenerValorCuota,
+        setStepRenta
       }}
     >
       {props.children}

@@ -32,6 +32,9 @@ const StcResultado = () => {
     rentabilidad,
     inversionInicial,
     obtenerValorCuota,
+    setStepRenta,
+    fondo
+    // setStep
   } = rentabilidadContext;
 
   const handleFound = async (step) => {
@@ -122,7 +125,7 @@ const StcResultado = () => {
         setRenta(rentabilidadF);
         setInversionIni(inversionInicial);
 
-        const porcentajetotal = (rentabilidadFinal / inversionInicial) * 100;
+        const porcentajetotal = (rentabilidadF / inversionInicial) * 100;
         setPorcentajeGana(parseInt(porcentajetotal));
 
         const fecha = new Date();
@@ -201,7 +204,18 @@ const StcResultado = () => {
       }
     };
     handleScroll();
+    // if(fondo){
+    //   setStep(2)
+    // }
+    
   }, [step, inversionInicial]);
+
+  useEffect(() => {
+    // console.log("mandarlo a fondo ", fondo);
+    if (fondo) {
+      handleFound(2);
+    }
+  }, [fondo]); 
 
   useEffect(() => {
     setAnimationPlayedSecond(false);
