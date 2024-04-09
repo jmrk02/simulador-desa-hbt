@@ -23,10 +23,10 @@ import esLocale from "date-fns/locale/es";
 import { makeStyles } from "@mui/styles";
 import { set } from "date-fns";
 
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { is, tr } from "date-fns/locale";
-import LoadingButton from '@mui/lab/LoadingButton';
+import LoadingButton from "@mui/lab/LoadingButton";
 const useStyles = makeStyles({
   root: {
     "& .MuiInputBase-input": {
@@ -77,7 +77,6 @@ function Prueba() {
   const [positionINV8, setPositionINV8] = useState(0);
   const [positionINV9, setPositionINV9] = useState(0);
   const [positionINV10, setPositionINV10] = useState(0);
-
 
   const [runningInv1, setRunningInv1] = useState(false);
   const [runningInv2, setRunningInv2] = useState(false);
@@ -137,7 +136,6 @@ function Prueba() {
   const [anoLimite, setAnoLimite] = useState([]);
   const [maxDate, setMaxDate] = useState(dayjs());
 
-
   // const [habiliarSimulacion, setHabilitarSimulacion] = useState(false);
   const [texto, setTexto] = useState(true);
   const [loadingBtn, setLoadingBtn] = useState(false);
@@ -152,12 +150,8 @@ function Prueba() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const rentabilidadContext = useContext(RentabilidadContext);
-  const {
-    setDatosInversion,
-    setMesAnio,
-    obtenerValorCuota,
-    setStepRenta
-  } = rentabilidadContext;
+  const { setDatosInversion, setMesAnio, obtenerValorCuota, setStepRenta } =
+    rentabilidadContext;
 
   const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
 
@@ -280,7 +274,6 @@ function Prueba() {
           }
         });
       }, velocidad);
-
     }
 
     return () => {
@@ -518,7 +511,7 @@ function Prueba() {
     ) {
       // console.log('termina toda la simulacion')
       setTexto(!texto);
-      setLoadingBtn(false)
+      setLoadingBtn(false);
     }
 
     return () => {
@@ -545,29 +538,31 @@ function Prueba() {
     runningInv9,
     runningInv10,
     runningN4,
-    terminado
+    terminado,
   ]);
 
   useEffect(() => {
     const fechaActual = new Date();
     const anio = fechaActual.getFullYear();
     let mes = fechaActual.getMonth();
-    mes = mes < 10 ? '0' + mes : mes;
+    mes = mes < 10 ? "0" + mes : mes;
     let dia = fechaActual.getDate();
-    dia = dia < 10 ? '0' + dia : dia;
+    dia = dia < 10 ? "0" + dia : dia;
     setMesLimite(fechaActual.getMonth());
-    const fecha = `${anio}-${mes}-${dia}`
+    const fecha = `${anio}-${mes}-${dia}`;
     setMaxDate(dayjs(fecha));
 
     getLastValue(mes + 1, anio, true);
-    const digitosAnio = anio.toString().split("").map(function (caracter) {
-      return parseInt(caracter, 10);
-    });
+    const digitosAnio = anio
+      .toString()
+      .split("")
+      .map(function (caracter) {
+        return parseInt(caracter, 10);
+      });
     setAnoLimite(digitosAnio);
   }, []);
 
   const handleCalculate = () => {
-
     let inversionUltima = isInversion / lastRent;
     let inversionActual = inversionUltima * nowRent;
     var entero = parseInt(inversionActual);
@@ -586,18 +581,22 @@ function Prueba() {
 
     setDatosInversion(
       isInversion,
-      rentabilidad,//rentabilidad
-      saldoTotal,//saldoTotal
+      rentabilidad, //rentabilidad
+      saldoTotal, //saldoTotal
       parseInt(porcentaje)
     );
     return parseInt(entero);
   };
 
   const handleOcultarDiv = () => {
-    var div = document.getElementById('ocultarSimulador');
-    div.classList.add('oculto'); // Añadir la clase 'oculto' al div para aplicar la animación
-    div.classList.remove('py-5');
-  }
+    var div = document.getElementById("ocultarSimulador");
+    div.classList.add("oculto"); // Añadir la clase 'oculto' al div para aplicar la animación
+    // div.classList.remove("py-5");
+    setTimeout(function () {
+      // Agregar la clase deseada al div
+      div.classList.add("d-none");
+    }, 1500);
+  };
 
   const simularAnimacion = () => {
     try {
@@ -635,12 +634,11 @@ function Prueba() {
         setPositionINV3(posicionesAno[0]);
         setPositionINV4(posicionesAno[0]);
         setPositionINV5(posicionesAno[0]);
-
       } else {
         //ENTRA ACA PARA OCULTAR EL DIV
         setStepRenta(true);
         let response = handleCalculate();
-        setLoadingBtn(true)
+        setLoadingBtn(true);
 
         setPositionN1(0);
         setPositionN2(0);
@@ -706,15 +704,13 @@ function Prueba() {
               break;
           }
         }
-
       }
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     } finally {
-      handleOcultarDiv()
-    } 
+      handleOcultarDiv();
+    }
   };
-
 
   const openCalendar = () => {
     if (texto) {
@@ -727,8 +723,12 @@ function Prueba() {
 
   const getQuotaValue = async (monthValue, yearValue, isActualMonth, fondo) => {
     try {
-      let lastValue
-      const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
+      let lastValue;
+      const response = await obtenerValorCuota(
+        monthValue,
+        yearValue,
+        isActualMonth
+      );
       if (response.rows.length > 0) {
         switch (fondo) {
           case 1:
@@ -746,20 +746,24 @@ function Prueba() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const getLastValue = async (monthValue, yearValue, isActualMonth) => {
     try {
-      let lastValue
-      const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
+      let lastValue;
+      const response = await obtenerValorCuota(
+        monthValue,
+        yearValue,
+        isActualMonth
+      );
       if (response.rows.length === 0) {
         const fecha = new Date();
         const mes = fecha.getMonth() - 1;
         const anio = fecha.getFullYear();
-        const fechafi = `${anio}-${mes}-15`
+        const fechafi = `${anio}-${mes}-15`;
         setMaxDate(dayjs(fechafi));
       } else {
-        console.log('valores cuota')
-        console.log(response.rows.pop())
+        console.log("valores cuota");
+        console.log(response.rows.pop());
         lastValue = response.rows.pop().fund2;
       }
       return lastValue;
@@ -770,7 +774,6 @@ function Prueba() {
 
   const handleDate = async (date) => {
     try {
-
       if (date === null) {
         return;
       }
@@ -816,7 +819,11 @@ function Prueba() {
             let mesNewActual = fechaActual.getMonth();
             let anioNewActual = fechaActual.getFullYear();
             // console.log('mesNewActual', mesNewActual,'--',index)
-            let actualNewValue = await getLastValue(mesNewActual, anioNewActual, false);
+            let actualNewValue = await getLastValue(
+              mesNewActual,
+              anioNewActual,
+              false
+            );
 
             if (actualNewValue) {
               // console.log('mesNewActual: ', mesNewActual)
@@ -827,7 +834,6 @@ function Prueba() {
             }
           }
         }
-
       }
     } catch (error) {
       //console.log(error);
@@ -835,7 +841,7 @@ function Prueba() {
   };
 
   const handleNumeroInversion = (num) => {
-    const inputValue = num.target.value.replace(/[^\d]/g, '');
+    const inputValue = num.target.value.replace(/[^\d]/g, "");
     if (num.target.value.includes(".")) {
       // Vaciar el campo si incluye un punto
       setSnackbarOpen(true);
@@ -859,7 +865,7 @@ function Prueba() {
       numeroSinCeros = parseInt(numero, 10);
     }
     return numeroSinCeros.toString();
-  }
+  };
 
   const posicionesNumerosInversion = (longitud, numero) => {
     let grid = 2;
@@ -992,7 +998,6 @@ function Prueba() {
         setShowMillon2(true);
         break;
       case 10:
-
         grid = 12 / (longitud + 3);
 
         setGrid(grid);
@@ -1002,7 +1007,7 @@ function Prueba() {
         setComa5Dig(false);
         setComa6Dig(false);
         setShowMillon(true);
-        setShowMillon2(false)
+        setShowMillon2(false);
         setComillaMilMillon(",");
         setMilMillon(true);
         // setGrid(grid);
@@ -1063,15 +1068,14 @@ function Prueba() {
     } else {
       setMostrarTextField(true);
     }
-    setIsInversion(isInversion)
+    setIsInversion(isInversion);
 
     setIsInversion(isInversion);
     posicionesNumerosInversion(isInversion.toString().length, isInversion);
   };
 
-
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setSnackbarOpen(false);
@@ -1085,11 +1089,10 @@ function Prueba() {
         return false;
       } else {
         return true;
-
       }
     }
     // return digitosAno && digitosMes && isInversion ? false : true
-  }
+  };
 
   return (
     <div className="bg-paper py-5" id="ocultarSimulador">
@@ -1117,7 +1120,7 @@ function Prueba() {
               xs={12}
               sm={2}
               onClick={openCalendar}
-              style={{ cursor: "pointer", marginTop: '1rem' }}
+              style={{ cursor: "pointer", marginTop: "1rem" }}
             >
               <Tooltip
                 title={errorFechaText}
@@ -1132,11 +1135,11 @@ function Prueba() {
                   popper: {
                     sx: {
                       [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
-                      {
-                        marginTop: "0px",
-                        backgroundColor: "#CE1335",
-                        fontSize: "0.80rem",
-                      },
+                        {
+                          marginTop: "0px",
+                          backgroundColor: "#CE1335",
+                          fontSize: "0.80rem",
+                        },
                     },
                   },
                 }}
@@ -1153,7 +1156,9 @@ function Prueba() {
                         //id="mes1"
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
@@ -1167,7 +1172,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
@@ -1181,7 +1188,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
@@ -1208,9 +1217,8 @@ function Prueba() {
               xs={12}
               sm={2.5}
               onClick={openCalendar}
-              style={{ cursor: "pointer", marginTop: '1rem' }}
+              style={{ cursor: "pointer", marginTop: "1rem" }}
             >
-
               <Tooltip
                 title={errorFechaText}
                 placement="bottom"
@@ -1224,11 +1232,11 @@ function Prueba() {
                   popper: {
                     sx: {
                       [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
-                      {
-                        marginTop: "0px",
-                        backgroundColor: "#CE1335",
-                        fontSize: "0.80rem",
-                      },
+                        {
+                          marginTop: "0px",
+                          backgroundColor: "#CE1335",
+                          fontSize: "0.80rem",
+                        },
                     },
                   },
                 }}
@@ -1244,7 +1252,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionN1}%, 0)`,
                         }}
@@ -1258,7 +1268,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionN2}%, 0)`,
                         }}
@@ -1272,7 +1284,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionN3}%, 0)`,
                         }}
@@ -1286,7 +1300,9 @@ function Prueba() {
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"}`}
+                        className={`box_digit ${
+                          terminado && !texto && "green"
+                        }`}
                         style={{
                           transform: `translate3d(0, -${positionN4}%, 0)`,
                         }}
@@ -1308,7 +1324,7 @@ function Prueba() {
             </Grid>
 
             {/* INVERSION */}
-            <Grid item xs={12} sm={gridMayor} style={{ marginTop: '1rem' }}>
+            <Grid item xs={12} sm={gridMayor} style={{ marginTop: "1rem" }}>
               <Tooltip
                 title={errorInversionText}
                 placement="bottom"
@@ -1322,11 +1338,11 @@ function Prueba() {
                   popper: {
                     sx: {
                       [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
-                      {
-                        marginTop: "0px",
-                        backgroundColor: "#CE1335",
-                        fontSize: "0.80rem",
-                      },
+                        {
+                          marginTop: "0px",
+                          backgroundColor: "#CE1335",
+                          fontSize: "0.80rem",
+                        },
                     },
                   },
                 }}
@@ -1350,7 +1366,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                         >
                           {numbers.map((num, index) => (
                             <div key={index}>S/</div>
@@ -1362,7 +1380,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV1}%, 0)`,
                           }}
@@ -1377,7 +1397,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV1}%, 0)`,
                             }}
@@ -1393,7 +1415,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV2}%, 0)`,
                           }}
@@ -1408,7 +1432,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV1}%, 0)`,
                             }}
@@ -1424,7 +1450,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV3}%, 0)`,
                           }}
@@ -1439,7 +1467,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV4}%, 0)`,
                             }}
@@ -1455,7 +1485,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV4}%, 0)`,
                           }}
@@ -1471,7 +1503,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV5}%, 0)`,
                             }}
@@ -1487,7 +1521,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV5}%, 0)`,
                           }}
@@ -1502,7 +1538,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV6}%, 0)`,
                             }}
@@ -1518,7 +1556,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV6}%, 0)`,
                           }}
@@ -1533,7 +1573,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV6}%, 0)`,
                             }}
@@ -1548,7 +1590,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV7}%, 0)`,
                           }}
@@ -1563,7 +1607,9 @@ function Prueba() {
                           <Typography
                             variant="h6"
                             component="div"
-                            className={`box_digit ${terminado && !texto && "green"}`}
+                            className={`box_digit ${
+                              terminado && !texto && "green"
+                            }`}
                             style={{
                               transform: `translate3d(0, -${positionINV8}%, 0)`,
                             }}
@@ -1578,7 +1624,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV8}%, 0)`,
                           }}
@@ -1593,7 +1641,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV9}%, 0)`,
                           }}
@@ -1607,7 +1657,9 @@ function Prueba() {
                         <Typography
                           variant="h6"
                           component="div"
-                          className={`box_digit ${terminado && !texto && "green"}`}
+                          className={`box_digit ${
+                            terminado && !texto && "green"
+                          }`}
                           style={{
                             transform: `translate3d(0, -${positionINV10}%, 0)`,
                           }}
@@ -1631,19 +1683,25 @@ function Prueba() {
                           onChange={handleNumeroInversion}
                           inputProps={{ maxLength: 8 }}
                           fullWidth
-                        // disabled={!texto}
+                          // disabled={!texto}
                         />
                       </Grid>
-                      <Snackbar open={snackbarOpen} autoHideDuration={5000}
+                      <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={5000}
                         onClose={handleCloseSnackbar}
                         anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
+                          vertical: "top",
+                          horizontal: "right",
                         }}
-                        style={{ marginTop: '3rem' }}
+                        style={{ marginTop: "3rem" }}
                       >
-                        <MuiAlert onClose={handleCloseSnackbar} severity="warning">
-                          Ingrese solo números enteros, sin puntos o comas. Por ejemplo: 45678.
+                        <MuiAlert
+                          onClose={handleCloseSnackbar}
+                          severity="warning"
+                        >
+                          Ingrese solo números enteros, sin puntos o comas. Por
+                          ejemplo: 45678.
                         </MuiAlert>
                       </Snackbar>
                     </Grid>
@@ -1656,7 +1714,6 @@ function Prueba() {
                 </Typography>
               </Grid>
             </Grid>
-
           </Grid>
 
           <Grid container justifyContent="center" spacing={2}>
@@ -1664,7 +1721,11 @@ function Prueba() {
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
-                localeText={{ okButtonLabel: 'Aceptar', cancelButtonLabel: 'Cancelar', datePickerToolbarTitle: 'Seleccionar fecha' }}
+                localeText={{
+                  okButtonLabel: "Aceptar",
+                  cancelButtonLabel: "Cancelar",
+                  datePickerToolbarTitle: "Seleccionar fecha",
+                }}
               >
                 <MobileDatePicker
                   open={abrirCalendar}
@@ -1676,19 +1737,30 @@ function Prueba() {
                   maxDate={maxDate}
                   minDate={dayjs(`2014-03-01`)}
                   value={fechaSeleccionada}
-
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={3} sm={3} className="col2" style={{ marginTop: '1.5rem' }}>
-              <LoadingButton className="btn hbt-btn-primary btn-loading"
+            <Grid
+              item
+              xs={3}
+              sm={3}
+              className="col2"
+              style={{ marginTop: "1.5rem" }}
+            >
+              <LoadingButton
+                className="btn hbt-btn-primary btn-loading"
                 onClick={simularAnimacion}
                 loading={loadingBtn ? true : false}
                 // disabled={digitosAno && digitosMes && isInversion>0 ? false : true}
                 disabled={disableBtn(digitosAno, digitosMes, isInversion)}
-
               >
-                <span>{texto ? (loadingBtn ? "" : "Simular ahora") : ("Volver a simular")}</span>
+                <span>
+                  {texto
+                    ? loadingBtn
+                      ? ""
+                      : "Simular ahora"
+                    : "Volver a simular"}
+                </span>
               </LoadingButton>
             </Grid>
           </Grid>

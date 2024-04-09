@@ -301,15 +301,20 @@ p {
 
 #ocultarSimulador {
   opacity: 1; /* Ajusta la altura automáticamente al contenido */
-  overflow: hidden; /* Oculta el contenido que desborda */
+  // overflow: hidden; /* Oculta el contenido que desborda */
   transition: opacity 2s ease; /* Transición suave de altura */
 }
 
 .oculto {
-  height: 0 !important; /* Reduce la altura a 0 cuando se agrega la clase 'oculto' */
-  padding-top: 0rem !important;
-  padding-bottom: 0rem !important;
-  margin: 0;
+  // height: 0 !important; /* Reduce la altura a 0 cuando se agrega la clase 'oculto' */
+  // padding-top: 0rem !important;
+  // padding-bottom: 0rem !important;
+  // margin: 0;
+  opacity: 0 !important;
+}
+
+.d-none {
+  display: none;
 }
 
 // @keyframes ocultar {
