@@ -57,6 +57,8 @@ function Prueba() {
   const [digitosDias, setDigitosDias] = useState(0);
   const [positionD1, setPositionD1] = useState(0);
   const [positionD2, setPositionD2] = useState(0);
+  const posicionesFecha = [0, 8, 16.25, 24.5, 32.5, 40.5, 49, 57, 65.5, 73.5, 81.5, 89.5];
+
 
   const [digitosMes, setDigitosMes] = useState(0);
   const [positionM1, setPositionM1] = useState(0);
@@ -115,7 +117,8 @@ function Prueba() {
   const [digitosInversion, setDigitosInversion] = useState([]);
 
   const [abrirCalendar, setAbrirCalendar] = useState(false);
-  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9","0","0"];
+  const numbersInv = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   const meses = [
     ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
@@ -560,7 +563,8 @@ function Prueba() {
     const fecha = `${anio}-${mes}-${dia}`;
     setMaxDate(dayjs(fecha));
 
-    getLastValue(mes + 1, anio, true);
+    let valor3, valor2 =fechaLimiteCalendario()
+    console.log('valor1', valor3, 'valor2', valor2)
     const digitosAnio = anio
       .toString()
       .split("")
@@ -754,6 +758,24 @@ function Prueba() {
     }
   };
 
+  const fechaLimiteCalendario = async()=>{
+    try {
+      const fecha = new Date();
+      const response = await obtenerValorCuota(0,0,true);
+      console.log('response', response)
+      if(response.rows.length === 0){
+        // const fecha = new Date();
+        const mes = fecha.getMonth()-1;
+        const anio = fecha.getFullYear();
+        const fechaLimit = await obtenerValorCuota(mes, anio, false);
+        console.log('fechaLimit', fechaLimit)
+        return 'valor 1',' valor 2';
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
   const getLastValue = async (monthValue, yearValue, isActualMonth) => {
     try {
       let lastValue;
@@ -764,7 +786,7 @@ function Prueba() {
       );
       if (response.rows.length === 0) {
         const fecha = new Date();
-        const mes = fecha.getMonth() - 1;
+        const mes = fecha.getMonth();
         const anio = fecha.getFullYear();
         const fechafi = `${anio}-${mes}-15`;
         setMaxDate(dayjs(fechafi));
@@ -802,13 +824,13 @@ function Prueba() {
         const dias = digitosDia.split("").map((i) => parseInt(i, 10));
         setDigitosDias(dias);
 
-        setPositionD1(posicionesAno[dias[0]]);
-        setPositionD2(posicionesAno[dias[1]]);
-        setPositionM1(posicionMes[month]);
-        setPositionN1(posicionesAno[anos[0]]);
-        setPositionN2(posicionesAno[anos[1]]);
-        setPositionN3(posicionesAno[anos[2]]);
-        setPositionN4(posicionesAno[anos[3]]);
+        setPositionD1(posicionesFecha[dias[0]]);
+        setPositionD2(posicionesFecha[dias[1]]);
+        setPositionM1(posicionesFecha[month]);
+        setPositionN1(posicionesFecha[anos[0]]);
+        setPositionN2(posicionesFecha[anos[1]]);
+        setPositionN3(posicionesFecha[anos[2]]);
+        setPositionN4(posicionesFecha[anos[3]]);
       }
       if (ano.length === 0) {
         setErrorFechaText("Seleccione una fecha");
@@ -1158,6 +1180,7 @@ function Prueba() {
                   xs={12}
                   sm={12}
                   className="box_digits number-container"
+                  // className="box_digits"
                 >
                   <Grid container spacing={1} alignItems="center">
                     <Grid item xs={1.09}>
@@ -1216,9 +1239,9 @@ function Prueba() {
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
                       >
-                        {numbers.map((num, index) => (
-                            <div key={index}>{meses[0][num]}</div>
-                          ))}
+                        {meses[0].map((letter, index) => (
+                          <div key={index}>{letter}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1231,9 +1254,9 @@ function Prueba() {
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
                       >
-                        {numbers.map((num, index) => (
-                            <div key={index}>{meses[1][num]}</div>
-                          ))}
+                        {meses[1].map((letter, index) => (
+                          <div key={index}>{letter}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1246,9 +1269,9 @@ function Prueba() {
                           transform: `translate3d(0, -${positionM1}%, 0)`,
                         }}
                       >
-                        {numbers.map((num, index) => (
-                            <div key={index}>{meses[2][num]}</div>
-                          ))}
+                        {meses[2].map((letter, index) => (
+                          <div key={index}>{letter}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1385,7 +1408,7 @@ function Prueba() {
                           className={`box_digit ${terminado && !texto && "green"
                             }`}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>S/</div>
                           ))}
                         </Typography>
@@ -1401,7 +1424,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV1}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1417,7 +1440,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV1}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>{comilla}</div>
                             ))}
                           </Typography>
@@ -1434,7 +1457,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV2}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1450,7 +1473,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV1}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>{comilla}</div>
                             ))}
                           </Typography>
@@ -1467,7 +1490,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV3}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1483,7 +1506,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV4}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>{comilla}</div>
                             ))}
                           </Typography>
@@ -1500,7 +1523,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV4}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1517,7 +1540,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV5}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>{comillaMilMillon}</div>
                             ))}
                           </Typography>
@@ -1534,7 +1557,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV5}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1550,7 +1573,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV6}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>,</div>
                             ))}
                           </Typography>
@@ -1567,7 +1590,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV6}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1583,7 +1606,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV6}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>,</div>
                             ))}
                           </Typography>
@@ -1599,7 +1622,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV7}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1615,7 +1638,7 @@ function Prueba() {
                               transform: `translate3d(0, -${positionINV8}%, 0)`,
                             }}
                           >
-                            {numbers.map((num, index) => (
+                            {numbersInv.map((num, index) => (
                               <div key={index}>,</div>
                             ))}
                           </Typography>
@@ -1631,7 +1654,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV8}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1647,7 +1670,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV9}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
@@ -1662,7 +1685,7 @@ function Prueba() {
                             transform: `translate3d(0, -${positionINV10}%, 0)`,
                           }}
                         >
-                          {numbers.map((num, index) => (
+                          {numbersInv.map((num, index) => (
                             <div key={index}>{num}</div>
                           ))}
                         </Typography>
