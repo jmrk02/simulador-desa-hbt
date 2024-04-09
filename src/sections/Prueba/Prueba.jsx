@@ -798,7 +798,7 @@ function Prueba() {
         setDigitosAno(anos);
 
         let digitosDia
-        if(dia <= 9){digitosDia = '0' + dia.toString();}else{digitosDia = dia.toString();}
+        if(dia < 9){digitosDia = '0' + dia.toString();}else{digitosDia = dia.toString();}
         const dias = digitosDia.split("").map((i) => parseInt(i, 10));
         setDigitosDias(dias);
 
@@ -1157,7 +1157,7 @@ function Prueba() {
                   item
                   xs={12}
                   sm={12}
-                  className="box_digits"
+                  className="box_digits number-container"
                 >
                   <Grid container spacing={1} alignItems="center">
                     <Grid item xs={1.09}>
