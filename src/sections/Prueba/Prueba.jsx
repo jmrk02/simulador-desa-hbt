@@ -593,9 +593,13 @@ function Prueba() {
     return parseInt(entero);
   };
 
+  const handleOcultarDiv = () => {
+    var div = document.getElementById('ocultarSimulador');
+    div.classList.add('oculto'); // Añadir la clase 'oculto' al div para aplicar la animación
+    div.classList.remove('py-5');
+  }
 
   const simularAnimacion = () => {
-
     try {
       if (!texto) {
         setFechaSeleccionada(null);
@@ -705,8 +709,10 @@ function Prueba() {
 
       }
     } catch (error) {
-      //console.log('error', error);
-    }
+      console.log('error', error);
+    } finally {
+      handleOcultarDiv()
+    } 
   };
 
 
@@ -1086,7 +1092,7 @@ function Prueba() {
   }
 
   return (
-    <div className="bg-paper py-5">
+    <div className="bg-paper py-5" id="ocultarSimulador">
       <Container>
         <div className="d-block text-center">
           <h3 className="d-block">

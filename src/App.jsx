@@ -5,7 +5,7 @@ import "./App.css";
 import { useMediaQuery, useTheme } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css"; // Importar los estilos CSS de Bootstrap
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import React, { useEffect } from "react";
+import React from "react";
 
 import Header from "./sections/header";
 import { BeforeAfter } from "./sections/beforeAfter/BeforeAfter";
@@ -33,7 +33,7 @@ function App() {
           afterImage={screenMobile ? imagenNuevaMobile : imagenNueva}
         />
         {/* <Simulator /> */}
-        <Prueba />
+        <Prueba/>
         <StcResultado />
         <StcFormulario />
         <Footer />

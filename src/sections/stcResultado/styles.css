@@ -226,6 +226,8 @@ dotlottie-player {
   border-radius: 2rem;
   cursor: pointer;
   margin-right: 0.5rem !important;
+  display: flex;
+    align-items: center;
 }
 
 
