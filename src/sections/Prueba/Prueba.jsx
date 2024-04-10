@@ -21,7 +21,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import esLocale from "date-fns/locale/es";
 
 import { makeStyles } from "@mui/styles";
-import { set } from "date-fns";
+import { parse, set } from "date-fns";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -63,7 +63,7 @@ function Prueba() {
   const [digitosMes, setDigitosMes] = useState(0);
   const [positionM1, setPositionM1] = useState(0);
   const posicionMes = [
-    0, 9.5, 19.5, 29, 39, 49,  59, 68, 78, 87.5, 99,
+    0, 9.5, 19.5, 29, 39, 49, 59, 68, 78, 87.5, 99,
   ];
 
   const [digitosAno, setDigitosAno] = useState([]);
@@ -73,7 +73,7 @@ function Prueba() {
   const [positionN4, setPositionN4] = useState(0);
   const [terminado, setTerminado] = useState(false);
   const posicionesAno = [0, 10, 19.5, 29, 39, 49, 58.5, 68.5, 78, 88];
-                      //0  1     2    3   4   5     6    7   8    9
+  //0  1     2    3   4   5     6    7   8    9
   const [mostrarTextField, setMostrarTextField] = useState(false);
   const [positionINV1, setPositionINV1] = useState(0);
   const [positionINV2, setPositionINV2] = useState(0);
@@ -117,7 +117,7 @@ function Prueba() {
   const [digitosInversion, setDigitosInversion] = useState([]);
 
   const [abrirCalendar, setAbrirCalendar] = useState(false);
-  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9","0","0"];
+  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "0"];
   const numbersInv = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   const meses = [
@@ -144,6 +144,7 @@ function Prueba() {
   const [mesLimite, setMesLimite] = useState(0);
   const [anoLimite, setAnoLimite] = useState([]);
   const [maxDate, setMaxDate] = useState(dayjs());
+  const [minDate, setMinDate] = useState(dayjs("1900-01-01"));
 
   // const [habiliarSimulacion, setHabilitarSimulacion] = useState(false);
   const [texto, setTexto] = useState(true);
@@ -159,7 +160,7 @@ function Prueba() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const rentabilidadContext = useContext(RentabilidadContext);
-  const { setDatosInversion, setMesAnio, obtenerValorCuota, setStepRenta } =
+  const { changeVisualRentabilidad, setDatosInversion, setMesAnio, obtenerValorCuota, setStepRenta, setDataFecha, setFondoMayor, ocultarRenta } =
     rentabilidadContext;
 
   const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
@@ -553,26 +554,67 @@ function Prueba() {
   ]);
 
   useEffect(() => {
-    const fechaActual = new Date();
-    const anio = fechaActual.getFullYear();
-    let mes = fechaActual.getMonth();
-    mes = mes < 10 ? "0" + mes : mes;
-    let dia = fechaActual.getDate();
-    dia = dia < 10 ? "0" + dia : dia;
-    setMesLimite(fechaActual.getMonth());
-    const fecha = `${anio}-${mes}-${dia}`;
-    setMaxDate(dayjs(fecha));
+    // const fechaActual = new Date();
+    // const anio = fechaActual.getFullYear();
+    // let mes = fechaActual.getMonth();
+    // mes = mes < 10 ? "0" + mes : mes;
+    // let dia = fechaActual.getDate();
+    // dia = dia < 10 ? "0" + dia : dia;
+    // setMesLimite(fechaActual.getMonth());
+    // const fecha = `${anio}-${mes}-${dia}`;
+    // setMaxDate(dayjs(fecha));
 
-    let valor3, valor2 =fechaLimiteCalendario()
-    console.log('valor1', valor3, 'valor2', valor2)
-    const digitosAnio = anio
-      .toString()
-      .split("")
-      .map(function (caracter) {
-        return parseInt(caracter, 10);
-      });
-    setAnoLimite(digitosAnio);
+    const fechaLimite = fechaLimiteCalendario();
+    // console.log('fechaLimite', fechaLimite)
+    // setMaxDate(dayjs(fechaLimite));
+
+
   }, []);
+
+  useEffect(() => {
+    console.log('mostrar rentabilidad', ocultarRenta)
+    if (!ocultarRenta) {
+
+      //deberia de mostrar de nuevo el simulador
+      var div = document.getElementById("ocultarSimulador");
+      div.classList.remove("d-none");
+      div.classList.remove("oculto");
+      setFechaSeleccionada(null);
+      setTerminado(false);
+
+      setPositionN1(0);
+      setPositionN2(0);
+      setPositionN3(0);
+      setPositionN4(0);
+
+      setPositionM1(0);
+
+      setPositionINV1(0);
+      setPositionINV2(0);
+      setPositionINV3(0);
+      setPositionINV4(0);
+      setPositionINV5(0);
+      setPositionINV6(0);
+      setPositionINV7(0);
+      setPositionINV8(0);
+      setPositionINV9(0);
+      setPositionINV10(0);
+      setIsInversion("");
+      setTexto(texto);
+      setDigitosAno([]);
+      setStepRenta(false);
+
+      posicionesNumerosInversion(5, "");
+
+      setPositionINV1(posicionesAno[0]);
+      setPositionINV2(posicionesAno[0]);
+      setPositionINV3(posicionesAno[0]);
+      setPositionINV4(posicionesAno[0]);
+      setPositionINV5(posicionesAno[0]);
+      setLoadingBtn(false);
+      // simularAnimacion();
+    }
+  }, [ocultarRenta]);
 
   const handleCalculate = () => {
     let inversionUltima = isInversion / lastRent;
@@ -597,10 +639,39 @@ function Prueba() {
       saldoTotal, //saldoTotal
       parseInt(porcentaje)
     );
+
     return parseInt(entero);
   };
 
+  const formulaInversionFinal = (miInversion, lastRent, nowRent) => {
+    let inversionUltima = miInversion / lastRent;
+    let inversionActual = inversionUltima * nowRent;
+    return inversionActual;
+  }
+  const calcularRentabilidadMayor = () => {
+    let renta_fondo1 = formulaInversionFinal(isInversion, lastRent1, nowRent1);
+    let renta_fondo2 = formulaInversionFinal(isInversion, lastRent2, nowRent2);
+    let renta_fondo3 = formulaInversionFinal(isInversion, lastRent3, nowRent3);
+    let mayor = Math.max(renta_fondo1, renta_fondo2, renta_fondo3);
+    console.log('rentabilidad fondo 1', renta_fondo1)
+    console.log('rentabilidad fondo 2', renta_fondo2)
+    console.log('rentabilidad fondo 3', renta_fondo3)
+
+    console.log('mayor rentabilidad', mayor)
+    if (mayor === renta_fondo1) {
+      console.log('fondo 1')
+      return 1;
+    } else if (mayor === renta_fondo2) {
+      console.log('fondo 2')
+      return 2;
+    } else {
+      console.log('fondo 3')
+      return 3;
+    }
+  }
+
   const handleOcultarDiv = () => {
+    changeVisualRentabilidad(!ocultarRenta);
     var div = document.getElementById("ocultarSimulador");
     div.classList.add("oculto"); // Añadir la clase 'oculto' al div para aplicar la animación
     // div.classList.remove("py-5");
@@ -612,187 +683,215 @@ function Prueba() {
 
   const simularAnimacion = () => {
     try {
-      if (!texto) {
-        setFechaSeleccionada(null);
-        setTerminado(false);
+      setStepRenta(true);
+      let response = handleCalculate();
+      let fondoMAyor = calcularRentabilidadMayor();
+      console.log('fondo mayor', fondoMAyor)
+      setFondoMayor(fondoMAyor);
+      setLoadingBtn(true);
 
-        setPositionN1(0);
-        setPositionN2(0);
-        setPositionN3(0);
-        setPositionN4(0);
+      setPositionN1(0);
+      setPositionN2(0);
+      setPositionN3(0);
+      setPositionN4(0);
 
-        setPositionM1(0);
+      setPositionM1(0);
 
-        setPositionINV1(0);
-        setPositionINV2(0);
-        setPositionINV3(0);
-        setPositionINV4(0);
-        setPositionINV5(0);
-        setPositionINV6(0);
-        setPositionINV7(0);
-        setPositionINV8(0);
-        setPositionINV9(0);
-        setPositionINV10(0);
-        setIsInversion("");
-        setTexto(!texto);
-        setDigitosAno([]);
-        //setear el step a fondo 2
-        setStepRenta(false);
+      setPositionD1(0);
+      setPositionD2(0);
+      
+      setPositionINV1(0);
+      setPositionINV2(0);
+      setPositionINV3(0);
+      setPositionINV4(0);
+      setPositionINV5(0);
+      setPositionINV6(0);
+      setPositionINV7(0);
+      setPositionINV8(0);
+      setPositionINV9(0);
+      setPositionINV10(0);
 
-        posicionesNumerosInversion(5, "");
+      setRunningN1(!runningN1);
+      setRunningN2(!runningN2);
+      setRunningN3(!runningN3);
+      setRunningN4(!runningN4);
 
-        setPositionINV1(posicionesAno[0]);
-        setPositionINV2(posicionesAno[0]);
-        setPositionINV3(posicionesAno[0]);
-        setPositionINV4(posicionesAno[0]);
-        setPositionINV5(posicionesAno[0]);
-      } else {
-        //ENTRA ACA PARA OCULTAR EL DIV
-        setStepRenta(true);
-        let response = handleCalculate();
-        setLoadingBtn(true);
+      setRunningM1(!runningM1);
 
-        setPositionN1(0);
-        setPositionN2(0);
-        setPositionN3(0);
-        setPositionN4(0);
-
-        setPositionM1(0);
-
-        setPositionINV1(0);
-        setPositionINV2(0);
-        setPositionINV3(0);
-        setPositionINV4(0);
-        setPositionINV5(0);
-        setPositionINV6(0);
-        setPositionINV7(0);
-        setPositionINV8(0);
-        setPositionINV9(0);
-        setPositionINV10(0);
-
-        setRunningN1(!runningN1);
-        setRunningN2(!runningN2);
-        setRunningN3(!runningN3);
-        setRunningN4(!runningN4);
-
-        setRunningM1(!runningM1);
-
-        const longitud = response.toString().length;
-        for (let i = 0; i < longitud; i++) {
-          switch (i) {
-            case 0:
-              setRunningInv1(!runningInv1);
-              break;
-            case 1:
-              setRunningInv2(!runningInv2);
-              break;
-            case 2:
-              setRunningInv3(!runningInv3);
-              break;
-            case 3:
-              setRunningInv4(!runningInv4);
-              break;
-            case 4:
-              setRunningInv5(!runningInv5);
-              break;
-            case 5:
-              setRunningInv6(!runningInv6);
-              break;
-            case 6:
-              setRunningInv7(!runningInv7);
-              break;
-            case 7:
-              setRunningInv8(!runningInv8);
-              break;
-            case 8:
-              setRunningInv9(!runningInv9);
-              break;
-            case 9:
-              setRunningInv10(!runningInv10);
-              break;
-            default:
-              break;
-          }
+      const longitud = response.toString().length;
+      for (let i = 0; i < longitud; i++) {
+        switch (i) {
+          case 0:
+            setRunningInv1(!runningInv1);
+            break;
+          case 1:
+            setRunningInv2(!runningInv2);
+            break;
+          case 2:
+            setRunningInv3(!runningInv3);
+            break;
+          case 3:
+            setRunningInv4(!runningInv4);
+            break;
+          case 4:
+            setRunningInv5(!runningInv5);
+            break;
+          case 5:
+            setRunningInv6(!runningInv6);
+            break;
+          case 6:
+            setRunningInv7(!runningInv7);
+            break;
+          case 7:
+            setRunningInv8(!runningInv8);
+            break;
+          case 8:
+            setRunningInv9(!runningInv9);
+            break;
+          case 9:
+            setRunningInv10(!runningInv10);
+            break;
+          default:
+            break;
         }
       }
+      handleOcultarDiv();
+      // if (!texto) {
+      //   setFechaSeleccionada(null);
+      //   setTerminado(false);
+
+      //   setPositionN1(0);
+      //   setPositionN2(0);
+      //   setPositionN3(0);
+      //   setPositionN4(0);
+
+      //   setPositionM1(0);
+
+      //   setPositionINV1(0);
+      //   setPositionINV2(0);
+      //   setPositionINV3(0);
+      //   setPositionINV4(0);
+      //   setPositionINV5(0);
+      //   setPositionINV6(0);
+      //   setPositionINV7(0);
+      //   setPositionINV8(0);
+      //   setPositionINV9(0);
+      //   setPositionINV10(0);
+      //   setIsInversion("");
+      //   setTexto(!texto);
+      //   setDigitosAno([]);
+      //   //setear el step a fondo 2
+      //   setStepRenta(false);
+
+      //   posicionesNumerosInversion(5, "");
+
+      //   setPositionINV1(posicionesAno[0]);
+      //   setPositionINV2(posicionesAno[0]);
+      //   setPositionINV3(posicionesAno[0]);
+      //   setPositionINV4(posicionesAno[0]);
+      //   setPositionINV5(posicionesAno[0]);
+      // } else {
+      //   //ENTRA ACA PARA OCULTAR EL DIV
+
+      // }
     } catch (error) {
       console.log("error", error);
     } finally {
-      handleOcultarDiv();
+      // handleOcultarDiv();
     }
   };
 
   const openCalendar = () => {
-    if (texto) {
-      setAbrirCalendar(true);
-    } else {
-      setAbrirCalendar(false);
-    }
-    // setAbrirCalendar(true);
+    // if (texto) {
+    //   setAbrirCalendar(true);
+    // } else {
+    //   setAbrirCalendar(false);
+    // }
+    setAbrirCalendar(true);
   };
 
-  const getQuotaValue = async (monthValue, yearValue, isActualMonth, fondo) => {
-    try {
-      let lastValue;
-      const response = await obtenerValorCuota(
-        monthValue,
-        yearValue,
-        isActualMonth
-      );
-      if (response.rows.length > 0) {
-        switch (fondo) {
-          case 1:
-            lastValue = response.rows.pop().fund1;
-            break;
-          case 2:
-            lastValue = response.rows.pop().fund2;
-            break;
-          case 3:
-            lastValue = response.rows.pop().fund3;
-            break;
-        }
-      }
-      return lastValue;
-    } catch (error) {
-      console.log(error);
-    }
+  const openInversion = () => {
+    setMostrarTextField(true);
+    setIsInversion(isInversion);
+
+    setIsInversion(isInversion);
+    posicionesNumerosInversion(isInversion.toString().length, isInversion);
   };
 
-  const fechaLimiteCalendario = async()=>{
+  const fechaLimiteCalendario = async () => {
     try {
       const fecha = new Date();
-      const response = await obtenerValorCuota(0,0,true);
-      console.log('response', response)
-      if(response.rows.length === 0){
-        // const fecha = new Date();
-        const mes = fecha.getMonth()-1;
-        const anio = fecha.getFullYear();
-        const fechaLimit = await obtenerValorCuota(mes, anio, false);
-        console.log('fechaLimit', fechaLimit)
-        return 'valor 1',' valor 2';
+      const response = await obtenerValorCuota(0, 0, true);
+
+      if (response.rows.length === 0) {
+        for (let i = 1; i < 13; i++) {
+          const mes = fecha.getMonth() - i;
+          const anio = fecha.getFullYear();
+          const obtenerFecha = await obtenerValorCuota(mes, anio, false);
+          if (obtenerFecha.rows.length > 0) {
+            const fechaLimite = obtenerFecha.rows[obtenerFecha.rows.length - 1].day.split('/');
+            obtenerVcActual(obtenerFecha)
+            formatoFecha(fechaLimite[0], fechaLimite[1], fechaLimite[2]);
+            break
+          }
+        }
+      } else {
+        const fechaLimite = response.rows[response.rows.length - 1].day.split('/');
+        obtenerVcActual(response)
+        formatoFecha(fechaLimite[0], fechaLimite[1], fechaLimite[2]);
       }
+      const digitosAnio = fecha.getFullYear().toString().split("").map(function (dig) { return parseInt(dig, 10) });
+      setAnoLimite(digitosAnio);
     }
     catch (error) {
       console.log(error);
     }
   }
+
+  const obtenerVcActual = (fecha) => {
+    const fondo1 = fecha.rows[fecha.rows.length - 1].fund1.replace(/^S\/\s/, "");
+    setNowRent1(fondo1);
+    const fondo2 = fecha.rows[fecha.rows.length - 1].fund2.replace(/^S\/\s/, "");
+    setNowRent2(fondo2);
+    const fondo3 = fecha.rows[fecha.rows.length - 1].fund3.replace(/^S\/\s/, "");
+    setNowRent3(fondo3);
+  }
+
+  const obtenerVcSelecionado = (fecha, dia) => {
+    const fondo1 = fecha.rows[dia - 1].fund1;
+    setLastRent1(validarFondos(fondo1));
+    const fondo2 = fecha.rows[dia - 1].fund2;
+    setLastRent2(validarFondos(fondo2));
+    const fondo3 = fecha.rows[dia - 1].fund3;
+    setLastRent3(validarFondos(fondo3));
+  }
+  const formatoFecha = (dia, mes, anio) => {
+    const diaLimite = parseInt(dia, 10) - 1;
+    const mesLimite = parseInt(mes, 10);
+    const anioLimite = parseInt(anio, 10);
+    const fecha = `${anioLimite}-${mesLimite}-${diaLimite}`;
+    setMaxDate(dayjs(fecha));
+
+    return anioLimite;
+  }
+
+  const validarFondos = (fondo) => {
+    if (fondo === 'No validado') {
+      return null
+    } else {
+      return fondo.replace(/^S\/\s/, "");
+    }
+  }
+
   const getLastValue = async (monthValue, yearValue, isActualMonth) => {
     try {
       let lastValue;
-      const response = await obtenerValorCuota(
-        monthValue,
-        yearValue,
-        isActualMonth
-      );
-      if (response.rows.length === 0) {
-        const fecha = new Date();
-        const mes = fecha.getMonth();
-        const anio = fecha.getFullYear();
-        const fechafi = `${anio}-${mes}-15`;
-        setMaxDate(dayjs(fechafi));
-      } else {
-        console.log("valores cuota");
-        console.log(response.rows.pop());
+      const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
+      // if (response.rows.length === 0) {
+      // } else {
+      //   lastValue = response.rows.pop().fund2;
+      // }
+      if (response.rows.length > 0) {
         lastValue = response.rows.pop().fund2;
       }
       return lastValue;
@@ -800,6 +899,8 @@ function Prueba() {
       console.log(error);
     }
   };
+
+
 
   const handleDate = async (date) => {
     try {
@@ -810,17 +911,18 @@ function Prueba() {
       const mes = date["$M"];
       const ano = date["$y"];
       const dia = date["$D"];
-      
-      const updateFecha = { month: mes, year: ano, dia: dia};
+      console.log('mes del calendario', mes + 1)
+      console.log('dia del calendario', dia)
+
+      const updateFecha = { month: mes, year: ano, dia: dia };
       if (updateFecha !== null) {
         const { year, month, dia } = updateFecha;
         setDigitosMes(month);
-        
         const anos = year.toString().split("").map((i) => parseInt(i, 10));
         setDigitosAno(anos);
 
         let digitosDia
-        if(dia < 9){digitosDia = '0' + dia.toString();}else{digitosDia = dia.toString();}
+        if (dia <= 9) { digitosDia = '0' + dia.toString(); } else { digitosDia = dia.toString(); }
         const dias = digitosDia.split("").map((i) => parseInt(i, 10));
         setDigitosDias(dias);
 
@@ -837,7 +939,11 @@ function Prueba() {
       } else {
         setErrorFechaText("");
         setMesAnio(mes, ano);
-        let lastValue = await getLastValue(mes, ano, false);
+        setDataFecha(dia, mes, ano)
+        let lastValue = await getLastValue(mes + 1, ano, false);
+        const response = await obtenerValorCuota(mes, ano, false);
+        // console.log('lastValue selecionado', response)
+        obtenerVcSelecionado(response, dia)
         const lastValueNumber = lastValue.replace(/^S\/\s/, "");
         setLastRent(lastValueNumber);
 
@@ -855,11 +961,7 @@ function Prueba() {
             let mesNewActual = fechaActual.getMonth();
             let anioNewActual = fechaActual.getFullYear();
             // console.log('mesNewActual', mesNewActual,'--',index)
-            let actualNewValue = await getLastValue(
-              mesNewActual,
-              anioNewActual,
-              false
-            );
+            let actualNewValue = await getLastValue(mesNewActual, anioNewActual, false);
 
             if (actualNewValue) {
               // console.log('mesNewActual: ', mesNewActual)
@@ -1093,17 +1195,7 @@ function Prueba() {
 
   };
 
-  const openInversion = () => {
-    if (!texto) {
-      setMostrarTextField(false);
-    } else {
-      setMostrarTextField(true);
-    }
-    setIsInversion(isInversion);
 
-    setIsInversion(isInversion);
-    posicionesNumerosInversion(isInversion.toString().length, isInversion);
-  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -1145,7 +1237,7 @@ function Prueba() {
             justifyContent="center"
             className="box_simulator_time"
           >
-            {/* MES */}
+            {/* FECHA */}
             <Grid
               item
               xs={12}
@@ -1180,37 +1272,35 @@ function Prueba() {
                   xs={12}
                   sm={12}
                   className="box_digits number-container"
-                  // className="box_digits"
+                // className="box_digits"
                 >
                   <Grid container spacing={1} alignItems="center">
                     <Grid item xs={1.09}>
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"
-                          }`}
+                        className={`box_digit`}
                         style={{
                           transform: `translate3d(0, -${positionD1}%, 0)`,
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
                       <Typography
                         variant="h6"
                         component="div"
-                        className={`box_digit ${terminado && !texto && "green"
-                          }`}
+                        className={`box_digit`}
                         style={{
                           transform: `translate3d(0, -${positionD2}%, 0)`,
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
 
@@ -1225,8 +1315,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>-</div>
-                          ))}
+                          <div key={index}>-</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1285,8 +1375,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>-</div>
-                          ))}
+                          <div key={index}>-</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1300,8 +1390,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1315,8 +1405,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1330,8 +1420,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
                     <Grid item xs={1.09}>
@@ -1345,8 +1435,8 @@ function Prueba() {
                         }}
                       >
                         {numbers.map((num, index) => (
-                            <div key={index}>{num}</div>
-                          ))}
+                          <div key={index}>{num}</div>
+                        ))}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -1756,7 +1846,7 @@ function Prueba() {
                   views={["year", "month", "day"]}
                   style={{ display: "none" }}
                   maxDate={maxDate}
-                  minDate={dayjs(`2014-03-01`)}
+                  minDate={dayjs(`2014-2-3`)}
                   value={fechaSeleccionada}
                 />
               </LocalizationProvider>
@@ -1776,11 +1866,7 @@ function Prueba() {
                 disabled={disableBtn(digitosAno, digitosMes, isInversion)}
               >
                 <span>
-                  {texto
-                    ? loadingBtn
-                      ? ""
-                      : "Simular ahora"
-                    : "Volver a simular"}
+                  {loadingBtn ? "" : "Simular ahora"}
                 </span>
               </LoadingButton>
             </Grid>

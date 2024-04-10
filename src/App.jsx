@@ -26,16 +26,16 @@ function App() {
   return (
     <RentabilidadState>
       <div className="App">
-        <Header />
-        <BeforeAfter
+        {/* <Header /> */}
+        {/* <BeforeAfter
           // pointerMove
           beforeImage={screenMobile ? imagenAntiguaMobile : imagenAntigua}
           afterImage={screenMobile ? imagenNuevaMobile : imagenNueva}
-        />
+        /> */}
         {/* <Simulator /> */}
         <Prueba/>
         <StcResultado />
-        <StcFormulario />
+        {/* <StcFormulario /> */}
         <Footer />
       </div>
     </RentabilidadState>

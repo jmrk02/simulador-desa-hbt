@@ -24,28 +24,32 @@ const StcResultado = () => {
   const [isLoadingValues, setIsLoadingValues] = useState(false)
 
   const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
-  
+
   const [mesActual, setMesActual] = useState(new Date().getMonth())
   const [anioActual, setAnioActual] = useState(new Date().getFullYear())
   const rentabilidadContext = useContext(RentabilidadContext);
   const {
     mes,
     anio,
+    dia,
+    fondo,
     saldoTotal,
     porcentaje,
     rentabilidad,
     inversionInicial,
     obtenerValorCuota,
     setStepRenta,
-    fondo
+    ocultarRenta,
+    changeVisualRentabilidad
     // setStep
   } = rentabilidadContext;
 
   const handleFound = async (step) => {
     if (mes !== null && anio !== null) {
       if (inversionInicial !== null) {
-        // //console.log("mes", mes);
-        // //console.log("anio", anio);
+        console.log("mes", mes);
+        console.log("anio", anio);
+        console.log("dia", dia);
         // //console.log("saldoTotal", saldoTotal);
         // //console.log("porcentaje", porcentaje);
         // //console.log("rentabilidad", rentabilidad);
@@ -59,7 +63,6 @@ const StcResultado = () => {
         // console.log('valorCuotaActual TOP : ', valorCuotaActual)
         if (valorCuotaActual.rows.length === 0) {
           setIsLoadingValues(true)
-          // console.log('REVENTO')
           const fechaActual = new Date();
           for (let index = 1; index < 13; index++) {
             fechaActual.setMonth(fechaActual.getMonth() - index);
@@ -82,17 +85,20 @@ const StcResultado = () => {
         // console.log('valorCuotaActualvalorCuotaActual :', valorCuotaActual)
         let lastValue;
         let actualValue;
+        console.log('valor del dia', dia)
         switch (step) {
           case 1:
-            lastValue = valorCuotaLast.rows.pop().fund1;
+            lastValue = valorCuotaLast.rows[dia - 1].fund1;
+            console.log('valor couta fondo 1 fecha seleccion', lastValue)
             actualValue = valorCuotaActual.rows.pop().fund1;
+            console.log('valor couta fondo 1 fecha actual', actualValue)
             break;
           case 2:
-            lastValue = valorCuotaLast.rows.pop().fund2;
+            lastValue = valorCuotaLast.rows[dia - 1].fund2;
             actualValue = valorCuotaActual.rows.pop().fund2;
             break;
           case 3:
-            lastValue = valorCuotaLast.rows.pop().fund3;
+            lastValue = valorCuotaLast.rows[dia - 1].fund3;
             actualValue = valorCuotaActual.rows.pop().fund3;
             break;
           default:
@@ -109,21 +115,14 @@ const StcResultado = () => {
 
         let rentabilidadF = inversionActual - inversionInicial;
         let saldoTotalF = inversionActual.toFixed(2);
+        console.log("rentabilidadF", rentabilidadF);
         var rentabilidadRedondeada = Math.round(rentabilidadF * 100) / 100;
-        // console.log("rentabilidadF", rentabilidadF);
-        // console.log("rentabilidadRedondeada", rentabilidadRedondeada);
-        // console.log("saldoTotalF", saldoTotalF);
-        // const rentabilidadF = rentabilidadFinal.toFixed(2);
 
-
-        // var rentabilidadRedondeada = Math.round(rentabilidad * 100) / 100;
         if (rentabilidadRedondeada === -0) {
           rentabilidadF = -0.01;
           saldoTotalF = saldoTotalF - 0.01;
         }
-        // if (saldoTotalF == 1.00) {
-        //   saldoTotalF = 0.99;
-        // }
+
 
         setTotal(saldoTotalF);
         setRenta(rentabilidadF);
@@ -201,6 +200,28 @@ const StcResultado = () => {
     return partes.join(".");
   };
 
+  const mostrarSimulador = () => {
+    console.log('entra en mostrar simulador')
+    console.log('ocultarRenta', ocultarRenta)
+    changeVisualRentabilidad(!ocultarRenta)
+    var div = document.getElementById("resultado");
+    div.classList.remove("d-none");
+    div.classList.add("oculto");
+  }
+
+  useEffect(() => {
+    console.log('resultado del valor ocultaREnta', ocultarRenta)
+    var div = document.getElementById("resultado");
+    if(ocultarRenta){
+      console.log('entra en ocultar')
+      div.classList.remove("d-none");
+      div.classList.remove("oculto");
+      div.classList.add("mostrar");
+    }else{
+      div.classList.add("d-none");
+    }
+  }, [ocultarRenta]);
+
   useEffect(() => {
     const handleScroll = async () => {
       if (saldoTotal) {
@@ -208,21 +229,20 @@ const StcResultado = () => {
       }
     };
     handleScroll();
-    // if(fondo){
-    //   setStep(2)
-    // }
-
   }, [step, inversionInicial]);
 
   useEffect(() => {
     // console.log("mandarlo a fondo ", fondo);
     if (fondo) {
-      handleFound(2);
+      console.log("mandarlo a fondo ", fondo);
+      handleFound(fondo);
     }
   }, [fondo]);
 
   useEffect(() => {
     setAnimationPlayedSecond(false);
+    var div = document.getElementById("resultado");
+    div.classList.add("d-none");
   }, []);
 
   useEffect(() => {
@@ -255,7 +275,7 @@ const StcResultado = () => {
               <div className="container row">
                 <div className="col-lg-4 col-xs-12">
                   <h5 className="card-title me-3 renta-title">Rentabilidad proyectada de </h5>
-                  <h5 className="card-title me-3 renta-descrip">{meses[mes]} del {anio} a { meses[mesActual] } del {anioActual} en : </h5>
+                  <h5 className="card-title me-3 renta-descrip">{meses[mes]} del {anio} a {meses[mesActual]} del {anioActual} en : </h5>
                 </div>
                 <div className="col-lg-5 col-xs-12 fondos-btn d-flex">
                   <div className="d-flex">
@@ -459,7 +479,7 @@ const StcResultado = () => {
                       intenta seleccionando un periodo de tiempo distinto.
                     </p>
                   )}
-                  <a href="#stc-invertir" className="btn hbt-btn-primary mb-2">
+                  <a href="#ocultarSimulador" onClick={mostrarSimulador} className="btn hbt-btn-primary mb-2">
                     Invierte ahora
                   </a>
                   {/* <div className="d-block d-none d-lg-block">
@@ -557,7 +577,7 @@ const StcResultado = () => {
                   </div>
                   <hr className="hr mx-3"></hr>
                   <div className="modal-footer pt-0">
-                    <button type="button" className="btn hbt-btn-primary w-100">
+                    <button type="button" href="#ocultarSimulador" className="btn hbt-btn-primary w-100">
                       Simular ahora
                     </button>
                   </div>

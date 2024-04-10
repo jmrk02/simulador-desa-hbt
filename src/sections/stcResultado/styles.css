@@ -253,3 +253,21 @@ dotlottie-player {
 .fondos-btn{
   margin-left: 4.5rem;
 }
+
+
+#resultado {
+  /*opacity: 1; /* Ajusta la altura automáticamente al contenido */
+  /*transition: opacity 2s ease; /* Transición suave de altura */
+}
+
+.oculto {
+  opacity: 0 !important;
+}
+
+.mostrar {
+  opacity: 1 !important;
+}
+
+.d-none {
+  display: none;
+}

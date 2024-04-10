@@ -8,9 +8,11 @@ const RentabilidadState = (props) => {
     porcentaje: null,
     inversionInicial: null,
     rentabilidad: null,
+    dia:null,
     mes: null,
     anio: null,
     fondo: null,
+    ocultarRenta: false,
   };
 
   const rentabilidadFondo2 = (montoInicial, rentabilidad) => {
@@ -44,7 +46,27 @@ const RentabilidadState = (props) => {
       }
     });
   }
-
+  const setDataFecha =(dia,mes,anio) => {
+    console.log("DIA",dia)
+    console.log("MES",mes)
+    console.log("ANIO",anio)
+    dispatch({
+      type: "SETEAR_FECHA",
+      payload: {
+        dia: dia,
+        mes: mes,
+        anio: anio,
+      }
+    });
+  }
+  const setFondoMayor = (fondo) => {
+    dispatch({
+      type: "FONDO_MAYOR",
+      payload: {
+        fondo: fondo,
+      },
+    });
+  }
   const setDatosInversion = (
     inversionInicial,
     rentabilidad,
@@ -62,6 +84,14 @@ const RentabilidadState = (props) => {
     });
   };
 
+  const changeVisualRentabilidad = (ocultarRenta) => {
+    dispatch({
+      type: "OCULTAR_RENTABILIDAD",
+      payload: {
+        ocultarRenta: ocultarRenta,
+      },
+    });
+  }
   const obtenerValorCuota = async (monthValue, yearValue, isActualMonth) => {
     try {
       let mesActual;
@@ -126,12 +156,17 @@ const RentabilidadState = (props) => {
         rentabilidad: state.rentabilidad,
         mes: state.mes,
         anio: state.anio,
+        dia: state.dia,
         fondo: state.fondo,
+        ocultarRenta: state.ocultarRenta,
         rentabilidadFondo2,
         setMesAnio,
         setDatosInversion,
         obtenerValorCuota,
-        setStepRenta
+        setStepRenta,
+        setDataFecha,
+        setFondoMayor,
+        changeVisualRentabilidad
       }}
     >
       {props.children}
