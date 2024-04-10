@@ -261,15 +261,15 @@ p {
       height: 62px */
   border-radius: 18px;
   border: 6px solid $color-paper;
-  background: $color-text-primary;
-  color: $color-paper;
+  background: #f0f0f0e7;
+  color: #d84b0a66;
   box-shadow: 0px 2px 3px 0px #8c8e8f66;
 }
 .box_digit {
   font-size: 1.875rem !important;
   font-weight: 400 !important;
   padding: 6px 10px;
-  border-right: 1px solid $color-paper !important;
+  border-right: 1px solid #1dc56966 !important;
   transition: transform 0.5s ease;
   line-height: 50%;
 }
@@ -290,26 +290,14 @@ p {
   // padding: 0.5rem 1.5rem !important;
 }
 
-// #ocultarSimulador {
-//   opacity: 1;
-//   transition: opacity 0.5s ease; /* Transición suave de opacidad */
-// }
-
-// .oculto {
-//   opacity: 0 !important;
-// }
 
 #ocultarSimulador {
   opacity: 1; /* Ajusta la altura automáticamente al contenido */
-  // overflow: hidden; /* Oculta el contenido que desborda */
   transition: opacity 2s ease; /* Transición suave de altura */
 }
 
 .oculto {
-  // height: 0 !important; /* Reduce la altura a 0 cuando se agrega la clase 'oculto' */
-  // padding-top: 0rem !important;
-  // padding-bottom: 0rem !important;
-  // margin: 0;
+
   opacity: 0 !important;
 }
 
@@ -317,13 +305,4 @@ p {
   display: none;
 }
 
-// @keyframes ocultar {
-//   from {
-//     height: auto;
-//   }
-//   to {
-//     height: 0;
-//     padding: 0;
-//     margin: 0;
-//   }
-// }
+

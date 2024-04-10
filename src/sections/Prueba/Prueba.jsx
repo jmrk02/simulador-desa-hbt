@@ -686,7 +686,7 @@ function Prueba() {
       setStepRenta(true);
       let response = handleCalculate();
       let fondoMAyor = calcularRentabilidadMayor();
-      console.log('fondo mayor', fondoMAyor)
+      // console.log('fondo mayor', fondoMAyor)
       setFondoMayor(fondoMAyor);
       setLoadingBtn(true);
 
@@ -699,7 +699,7 @@ function Prueba() {
 
       setPositionD1(0);
       setPositionD2(0);
-      
+
       setPositionINV1(0);
       setPositionINV2(0);
       setPositionINV3(0);
@@ -756,44 +756,7 @@ function Prueba() {
         }
       }
       handleOcultarDiv();
-      // if (!texto) {
-      //   setFechaSeleccionada(null);
-      //   setTerminado(false);
 
-      //   setPositionN1(0);
-      //   setPositionN2(0);
-      //   setPositionN3(0);
-      //   setPositionN4(0);
-
-      //   setPositionM1(0);
-
-      //   setPositionINV1(0);
-      //   setPositionINV2(0);
-      //   setPositionINV3(0);
-      //   setPositionINV4(0);
-      //   setPositionINV5(0);
-      //   setPositionINV6(0);
-      //   setPositionINV7(0);
-      //   setPositionINV8(0);
-      //   setPositionINV9(0);
-      //   setPositionINV10(0);
-      //   setIsInversion("");
-      //   setTexto(!texto);
-      //   setDigitosAno([]);
-      //   //setear el step a fondo 2
-      //   setStepRenta(false);
-
-      //   posicionesNumerosInversion(5, "");
-
-      //   setPositionINV1(posicionesAno[0]);
-      //   setPositionINV2(posicionesAno[0]);
-      //   setPositionINV3(posicionesAno[0]);
-      //   setPositionINV4(posicionesAno[0]);
-      //   setPositionINV5(posicionesAno[0]);
-      // } else {
-      //   //ENTRA ACA PARA OCULTAR EL DIV
-
-      // }
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -802,11 +765,6 @@ function Prueba() {
   };
 
   const openCalendar = () => {
-    // if (texto) {
-    //   setAbrirCalendar(true);
-    // } else {
-    //   setAbrirCalendar(false);
-    // }
     setAbrirCalendar(true);
   };
 
@@ -887,10 +845,6 @@ function Prueba() {
     try {
       let lastValue;
       const response = await obtenerValorCuota(monthValue, yearValue, isActualMonth);
-      // if (response.rows.length === 0) {
-      // } else {
-      //   lastValue = response.rows.pop().fund2;
-      // }
       if (response.rows.length > 0) {
         lastValue = response.rows.pop().fund2;
       }
@@ -1238,13 +1192,12 @@ function Prueba() {
             className="box_simulator_time"
           >
             {/* FECHA */}
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              onClick={openCalendar}
-              style={{ cursor: "pointer", marginTop: "1rem" }}
-            >
+            <Grid item xs={12} sm={6} onClick={openCalendar} style={{ cursor: "pointer", marginTop: "1rem" }} >
+              <Grid>
+                <Typography variant="h6" >
+                  Fecha
+                </Typography>
+              </Grid>
               <Tooltip
                 title={errorFechaText}
                 placement="bottom"
@@ -1442,18 +1395,17 @@ function Prueba() {
                   </Grid>
                 </Grid>
               </Tooltip>
-
-              <Grid>
-                <Typography variant="h6" className="px-3 py-1 box_red_info">
-                  inicio
-                </Typography>
-              </Grid>
             </Grid>
 
 
 
             {/* INVERSION */}
             <Grid item xs={12} sm={gridMayor} style={{ marginTop: "1rem" }}>
+              <Grid>
+                <Typography variant="h6" >
+                  Inversión
+                </Typography>
+              </Grid>
               <Tooltip
                 title={errorInversionText}
                 placement="bottom"
@@ -1819,11 +1771,7 @@ function Prueba() {
                   )}
                 </Grid>
               </Tooltip>
-              <Grid>
-                <Typography variant="h6" className="px-3 py-1 box_red_info">
-                  {terminado ? "Monto total" : "Inversión"}
-                </Typography>
-              </Grid>
+
             </Grid>
           </Grid>
 
