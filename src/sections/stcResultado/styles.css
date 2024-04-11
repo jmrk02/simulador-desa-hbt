@@ -271,3 +271,17 @@ dotlottie-player {
 .d-none {
   display: none;
 }
+
+.box_general{
+  border-radius: 18px;
+  background-color: white;
+  padding: 0.5rem 3rem;
+}
+
+.box_resultado{
+  background-color: white !important;
+  /* color: #363A3E ; */
+  border-radius: 18px;
+  box-shadow: 0px 4px 13px 0px rgba(27, 29, 39, 0.12); 
+  margin: 1rem 0 !important;
+}
