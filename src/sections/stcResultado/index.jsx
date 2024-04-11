@@ -269,7 +269,7 @@ const StcResultado = () => {
   return (
     <div className="stc-hbt-resutl-rent py-5" id="resultado">
       <div className="container">
-        {saldoTotal ? (
+        {true ? (
           <div className={`transicion-renta ${saldoTotal ? "mostrar" : ""}`}>
             <div className="header-pills d-flex align-items-center mb-4">
               <div className="container row">
@@ -457,43 +457,7 @@ const StcResultado = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 col-xs-12 col3-tab">
-                  <h3 className="mb-2">
-                    Más detalles
-                    <br />
-                    <em>de tu simulación</em>
-                  </h3>
-                  {renta > 0 ? (
-                    <p className="mb-5">
-                      Descubre la rentabilidad que podrías haber logrado si hace{" "}
-                      <strong>{invertidoAnios} años</strong> hubieras invertido
-                      en <strong>AFP Habitat.</strong> Recuerda que a mayor
-                      tiempo de inversión podrías tener mayor ganancia.
-                    </p>
-                  ) : (
-                    <p className="mb-5">
-                      ¡Oh no!, parece que los datos que ingresaste no
-                      proporcionaron una buena estimación.{" "}
-                      <strong>Recuerda que la rentabilidad es volátil</strong>{" "}
-                      por lo tanto puede ser positiva o negativa a corto plazo,
-                      intenta seleccionando un periodo de tiempo distinto.
-                    </p>
-                  )}
-                  <a href="#ocultarSimulador" onClick={mostrarSimulador} className="btn hbt-btn-primary mb-2">
-                    Invierte ahora
-                  </a>
-                  {/* <div className="d-block d-none d-lg-block">
-                    <span >
-                      * La rentabilidad es un factor que{" "}
-                      <a
-                        href="https://www.afphabitat.com.pe/rentabilidad/"
-                        target="_blank"
-                      >
-                        se evalúa anualmente y puede variar.
-                      </a>
-                    </span>
-                  </div> */}
-                </div>
+               
               </div>
             </div>
 
@@ -503,6 +467,12 @@ const StcResultado = () => {
               Es importante tener en cuenta que estos resultados son proyecciones y
               no constituyen un compromiso por parte de la AFP para garantizar
               un monto de rentabilidad específico.
+            </div>
+
+            <div>
+            <a href="#ocultarSimulador" onClick={mostrarSimulador} className="btn hbt-btn-primary mb-2">
+                    Invierte ahora
+                  </a>
             </div>
             {/* MODAL */}
             <div

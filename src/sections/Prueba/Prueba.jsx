@@ -13,24 +13,19 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-// import { MobileDatePicker } from '@mui/lab';
 import "dayjs/locale/es";
 import dayjs from "dayjs";
-
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import esLocale from "date-fns/locale/es";
 
 import { makeStyles } from "@mui/styles";
 import { parse, set } from "date-fns";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { is, tr } from "date-fns/locale";
 import LoadingButton from "@mui/lab/LoadingButton";
 const useStyles = makeStyles({
   root: {
     "& .MuiInputBase-input": {
-      color: "white",
+      // color: "white",
       fontSize: "1.875rem",
       textAlign: "center",
       fontWeight: "400",
@@ -554,21 +549,7 @@ function Prueba() {
   ]);
 
   useEffect(() => {
-    // const fechaActual = new Date();
-    // const anio = fechaActual.getFullYear();
-    // let mes = fechaActual.getMonth();
-    // mes = mes < 10 ? "0" + mes : mes;
-    // let dia = fechaActual.getDate();
-    // dia = dia < 10 ? "0" + dia : dia;
-    // setMesLimite(fechaActual.getMonth());
-    // const fecha = `${anio}-${mes}-${dia}`;
-    // setMaxDate(dayjs(fecha));
-
     const fechaLimite = fechaLimiteCalendario();
-    // console.log('fechaLimite', fechaLimite)
-    // setMaxDate(dayjs(fechaLimite));
-
-
   }, []);
 
   useEffect(() => {
@@ -674,9 +655,8 @@ function Prueba() {
     changeVisualRentabilidad(!ocultarRenta);
     var div = document.getElementById("ocultarSimulador");
     div.classList.add("oculto"); // Añadir la clase 'oculto' al div para aplicar la animación
-    // div.classList.remove("py-5");
+    div.classList.remove("py-5");
     setTimeout(function () {
-      // Agregar la clase deseada al div
       div.classList.add("d-none");
     }, 1500);
   };
@@ -755,7 +735,7 @@ function Prueba() {
             break;
         }
       }
-      handleOcultarDiv();
+      handleOcultarDiv(); 
 
     } catch (error) {
       console.log("error", error);
@@ -853,9 +833,6 @@ function Prueba() {
       console.log(error);
     }
   };
-
-
-
   const handleDate = async (date) => {
     try {
       if (date === null) {
@@ -1174,15 +1151,15 @@ function Prueba() {
   return (
     <div className="bg-paper py-5" id="ocultarSimulador">
       <Container>
-        <div className="d-block text-center">
-          <h3 className="d-block">
-            <em>Simula tu Rentabilidad</em>
-          </h3>
-          <p>
-            Elige un periodo y monto de inversión para visualizar gráficamente
-            tu rentabilidad potencial.
-          </p>
+        {/* antiguo */}
+        <div className="d-block box_general">
 
+          <h3 className="d-block">
+            <em>Simulador</em>
+          </h3>
+          <span>
+            Realiza una simulación de la rentabilidad que podrías generar si empiezas a invertir con nosotros.
+          </span>
           <Grid
             item
             xs={12}
@@ -1396,8 +1373,6 @@ function Prueba() {
                 </Grid>
               </Tooltip>
             </Grid>
-
-
 
             {/* INVERSION */}
             <Grid item xs={12} sm={gridMayor} style={{ marginTop: "1rem" }}>
@@ -1773,52 +1748,76 @@ function Prueba() {
               </Tooltip>
 
             </Grid>
+
+
+            <Grid container justifyContent="center" spacing={2}>
+              <Grid item xs={3} sm={3} style={{ display: "none" }}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="es"
+                  localeText={{
+                    okButtonLabel: "Aceptar",
+                    cancelButtonLabel: "Cancelar",
+                    datePickerToolbarTitle: "Seleccionar fecha",
+                  }}
+                >
+                  <MobileDatePicker
+                    open={abrirCalendar}
+                    onClose={() => setAbrirCalendar(false)}
+                    onChange={handleDate}
+                    label="Selecciona una fecha"
+                    views={["year", "month", "day"]}
+                    style={{ display: "none" }}
+                    maxDate={maxDate}
+                    minDate={dayjs(`2014-2-3`)}
+                    value={fechaSeleccionada}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                className="col2"
+                style={{ margin: "1.5rem" }}
+              >
+                <LoadingButton
+                  className="btn hbt-btn-primary btn-loading"
+                  onClick={simularAnimacion}
+                  loading={loadingBtn ? true : false}
+                  // disabled={digitosAno && digitosMes && isInversion>0 ? false : true}
+                  disabled={disableBtn(digitosAno, digitosMes, isInversion)}
+                >
+                  <span>
+                    {loadingBtn ? "" : "Simular ahora"}
+                  </span>
+                </LoadingButton>
+              </Grid>
+            </Grid>
+
           </Grid>
 
-          <Grid container justifyContent="center" spacing={2}>
-            <Grid item xs={3} sm={3} style={{ display: "none" }}>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="es"
-                localeText={{
-                  okButtonLabel: "Aceptar",
-                  cancelButtonLabel: "Cancelar",
-                  datePickerToolbarTitle: "Seleccionar fecha",
-                }}
-              >
-                <MobileDatePicker
-                  open={abrirCalendar}
-                  onClose={() => setAbrirCalendar(false)}
-                  onChange={handleDate}
-                  label="Selecciona una fecha"
-                  views={["year", "month", "day"]}
-                  style={{ display: "none" }}
-                  maxDate={maxDate}
-                  minDate={dayjs(`2014-2-3`)}
-                  value={fechaSeleccionada}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={3}
-              className="col2"
-              style={{ marginTop: "1.5rem" }}
-            >
-              <LoadingButton
-                className="btn hbt-btn-primary btn-loading"
-                onClick={simularAnimacion}
-                loading={loadingBtn ? true : false}
-                // disabled={digitosAno && digitosMes && isInversion>0 ? false : true}
-                disabled={disableBtn(digitosAno, digitosMes, isInversion)}
-              >
-                <span>
-                  {loadingBtn ? "" : "Simular ahora"}
+          <Grid item
+            xs={12}
+            sm={12}
+            container
+            justifyContent="center"
+            alignItems="center"
+            className="btn-alert-blue">
+
+            <div className="align-items-center">
+              <button className="btn btn-icon-info p-1 d-flex">
+                <span className="material-symbols-rounded">
+                  info_i
                 </span>
-              </LoadingButton>
-            </Grid>
+              </button>
+            </div>
+            <div className="align-items-center">
+              <span style={{marginLeft: '0.5rem'}}>Los cálculos mostrados en el simulador son basados al último valor couta de 07 de abril emitido por la SBS</span>
+            </div>
           </Grid>
+
+
         </div>
       </Container>
     </div>
