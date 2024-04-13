@@ -16,8 +16,7 @@ const RentabilidadState = (props) => {
   };
 
   const rentabilidadFondo2 = (montoInicial, rentabilidad) => {
-    // console.log("montoInicial", montoInicial);
-    // console.log("rentabilidad", rentabilidad);
+
     dispatch({
       typeo: "RENTABILIDAD_FONDO2",
       payload: {
@@ -28,8 +27,6 @@ const RentabilidadState = (props) => {
   };
 
   const setMesAnio = (mes, anio) => {
-    // console.log("mes", mes);
-    // console.log("anio", anio);
     dispatch({
       type: "OBTENER_MES_ANIO",
       payload: {
@@ -47,9 +44,6 @@ const RentabilidadState = (props) => {
     });
   }
   const setDataFecha =(dia,mes,anio) => {
-    console.log("DIA",dia)
-    console.log("MES",mes)
-    console.log("ANIO",anio)
     dispatch({
       type: "SETEAR_FECHA",
       payload: {
@@ -101,14 +95,9 @@ const RentabilidadState = (props) => {
 
         mesActual = fechaActual.getMonth() + 1;
         anioActual = fechaActual.getFullYear();
-
-        // console.log("Número del mes anterior:", mesActual);
-        // console.log("Año del mes anterior:", anioActual);
       } else {
         mesActual = monthValue + 1;
         anioActual = yearValue;
-        // console.log('MES SELECCIONADO: ', mesActual)
-        // console.log('ANIO SELECCIONADO: ',anioActual)
       }
       const requestOptions = {
         method: "POST",
@@ -120,25 +109,6 @@ const RentabilidadState = (props) => {
         "https://zeusqa02.afphabitat.com.pe/api/privatezone/valores-cuota/dates";
       const response = await fetch(url, requestOptions);
       const resultado = await response.json();
-
-      //   let response =  await fetch('https://serviciosweb.afphabitat.com.pe/api/privatezone/valores-cuota/date',requestOptions)
-      // let response = await fetch(
-      //     "https://200.60.145.234/api/privatezone/valores-cuota/dates",
-      //     requestOptions
-      // // );
-      // let lastValue;
-      // // response.rows.pop().fund2;
-      // switch (tipoFondo) {
-      //     case 1:
-      //         lastValue = response.rows.pop().fund1;
-      //         break;
-      //     case 2:
-      //         lastValue=response.rows.pop().fund2;
-      //         break;
-      //     case 3:
-      //         lastValue=response.rows.pop().fund3;
-      //         break;
-      // }
 
       return resultado;
     } catch (error) {
