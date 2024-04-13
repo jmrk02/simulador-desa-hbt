@@ -276,6 +276,7 @@ dotlottie-player {
   border-radius: 18px;
   background-color: white;
   padding: 0.5rem 3rem;
+  width: 95%;
 }
 
 .box_resultado{
@@ -284,4 +285,15 @@ dotlottie-player {
   border-radius: 18px;
   box-shadow: 0px 4px 13px 0px rgba(27, 29, 39, 0.12); 
   margin: 1rem 0 !important;
+  /* width: 80%; */
+}
+
+.row-custom-width {
+  width: calc(100% - 10rem); /* Ajusta el valor "10rem" según el ancho de tus divs */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inver-margen{
+  margin-right: 2.5rem;
 }
