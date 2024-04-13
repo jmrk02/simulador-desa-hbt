@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from "react";
-import "./Prueba.scss";
+import "./Prueba.css";
 
 import RentabilidadContext from "../../../context/rentabilidad/rentabilidadContext";
 
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 function Prueba() {
   const velocidad = 100;
 
+  // eslint-disable-next-line no-unused-vars
   const [runningD1, setRunningD1] = useState(false);
   const [runningD2, setRunningD2] = useState(false);
 

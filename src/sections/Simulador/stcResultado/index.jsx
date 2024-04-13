@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 // import habimodal from "../../assets/img/habi-v-new.png";
@@ -554,7 +555,7 @@ const StcResultado = () => {
               </div>
               <hr className="hr mx-3"></hr>
               <div className="modal-footer pt-0">
-                <button type="button" href="#ocultarSimulador" className="btn hbt-btn-primary w-100">
+                <button type="button" href="#ocultarSimulador" onClick={mostrarSimulador} className="btn hbt-btn-primary w-100">
                   Simular ahora
                 </button>
               </div>
