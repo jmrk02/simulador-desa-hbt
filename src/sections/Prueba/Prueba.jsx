@@ -139,7 +139,6 @@ function Prueba() {
   const [maxDate, setMaxDate] = useState(dayjs());
   const [minDate, setMinDate] = useState(dayjs("1900-01-01"));
 
-  // const [habiliarSimulacion, setHabilitarSimulacion] = useState(false);
   const [texto, setTexto] = useState(true);
   const [loadingBtn, setLoadingBtn] = useState(false);
 
@@ -1650,11 +1649,7 @@ function Prueba() {
                         </Typography>
                       </Grid>
                       <Grid item sm={grid}>
-                        <Typography
-                          variant="h6"
-                          component="div"
-                          className="box_digit"
-                          style={{
+                        <Typography variant="h6" component="div" className="box_digit" style={{
                             transform: `translate3d(0, -${positionINV10}%, 0)`,
                           }}
                         >

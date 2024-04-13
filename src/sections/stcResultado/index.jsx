@@ -23,6 +23,8 @@ const StcResultado = () => {
   const [invertidoAnios, setInvertidoAnios] = useState(null);
   const [isLoadingValues, setIsLoadingValues] = useState(false)
 
+  const [diaActual, setDiaActual] = useState(new Date().getDate())
+
   const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
 
   const [mesActual, setMesActual] = useState(new Date().getMonth())
@@ -46,9 +48,9 @@ const StcResultado = () => {
   const handleFound = async (step) => {
     if (mes !== null && anio !== null) {
       if (inversionInicial !== null) {
-        console.log("mes", mes);
-        console.log("anio", anio);
-        console.log("dia", dia);
+        // console.log("mes", mes);
+        // console.log("anio", anio);
+        // console.log("dia", dia);
         // //console.log("saldoTotal", saldoTotal);
         // //console.log("porcentaje", porcentaje);
         // //console.log("rentabilidad", rentabilidad);
@@ -235,20 +237,23 @@ const StcResultado = () => {
   useEffect(() => {
     // console.log("mandarlo a fondo ", fondo);
     if (fondo) {
-      console.log("mandarlo a fondo ", fondo);
+      // console.log("mandarlo a fondo ", fondo);
       handleFound(fondo);
     }
   }, [fondo]);
 
   useEffect(() => {
+    // console.log(diaActual.getDay())
+    const fecha = new Date();
+    console.log('dia actuaaal',fecha.getDate())
     setAnimationPlayedSecond(false);
     var div = document.getElementById("resultado");
     div.classList.add("d-none");
   }, []);
 
   useEffect(() => {
-    console.log("mes seleccionado", mes);
-    console.log("anio seleccionado", anio);
+    // console.log("mes seleccionado", mes);
+    // console.log("anio seleccionado", anio);
     setInversionIni(inversionInicial);
     setTotal(saldoTotal);
     setRenta(rentabilidad);
@@ -286,7 +291,7 @@ const StcResultado = () => {
               <div className="header-pills d-flex align-items-center  mb-4  col-xs-12" style={{ marginTop: '1rem' }}>
                 <div className="col-lg-6 col-xs-12">
                   <h5 className="card-title me-3 renta-title">Rentabilidad proyectada</h5>
-                  <h5 className="card-title me-3 "> de {meses[mes]} {dia} del {anio} a {meses[mesActual]}  del {anioActual} en : </h5>
+                  <h5 className="card-title me-3 "> de {meses[mes]} {dia} del {anio} a {meses[mesActual]} {diaActual} del {anioActual} en : </h5>
                 </div>
                 <div className="col-lg-6 col-xs-12 ">
                   <div className="d-flex">
