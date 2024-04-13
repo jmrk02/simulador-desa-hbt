@@ -36,7 +36,7 @@ function App() {
         <Prueba/>
         <StcResultado />
         {/* <StcFormulario /> */}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </RentabilidadState>
   );
