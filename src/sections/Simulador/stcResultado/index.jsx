@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import habimodal from "../../assets/img/habi-v-new.png";
+// import habimodal from "../../assets/img/habi-v-new.png";
+import habimodal from "../../../assets/img/habi-v-new.png";
 import lottie from "lottie-web";
 import { useContext } from "react";
-import RentabilidadContext from "../../context/rentabilidad/rentabilidadContext";
-import { DotLottiePlayer } from "@dotlottie/player-component";
-import { set } from "date-fns";
+import RentabilidadContext from "../../../context/rentabilidad/rentabilidadContext";
+
 import CircularProgress from '@mui/material/CircularProgress';
 
 const StcResultado = () => {
@@ -42,7 +42,6 @@ const StcResultado = () => {
     obtenerValorCuota,
     ocultarRenta,
     changeVisualRentabilidad
-    // setStep
   } = rentabilidadContext;
 
   const handleFound = async (step) => {

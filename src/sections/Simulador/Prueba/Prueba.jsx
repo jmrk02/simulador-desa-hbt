@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Prueba.scss";
 
-import RentabilidadContext from "../../context/rentabilidad/rentabilidadContext";
+import RentabilidadContext from "../../../context/rentabilidad/rentabilidadContext";
 
 import { Container } from "@mui/material";
 
