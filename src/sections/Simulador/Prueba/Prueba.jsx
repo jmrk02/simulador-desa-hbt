@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from "react";
 import "./Prueba.scss";
@@ -7,7 +6,7 @@ import RentabilidadContext from "../../../context/rentabilidad/rentabilidadConte
 
 import { Container } from "@mui/material";
 
-import { Typography, Button, Grid, TextField } from "@mui/material";
+import { Typography, Grid, TextField } from "@mui/material";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -17,7 +16,6 @@ import "dayjs/locale/es";
 import dayjs from "dayjs";
 
 import { makeStyles } from "@mui/styles";
-import { parse, set } from "date-fns";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -66,7 +64,7 @@ function Prueba() {
   const [positionN4, setPositionN4] = useState(0);
   const [terminado, setTerminado] = useState(false);
   const posicionesAno = [0, 10, 19.5, 29, 39, 49, 58.5, 68.5, 78, 88];
-  //0  1     2    3   4   5     6    7   8    9
+
   const [mostrarTextField, setMostrarTextField] = useState(false);
   const [positionINV1, setPositionINV1] = useState(0);
   const [positionINV2, setPositionINV2] = useState(0);
@@ -807,6 +805,12 @@ function Prueba() {
     const fecha = `${anioLimite}-${mesLimite}-${diaLimite}`;
     setMaxDate(dayjs(fecha));
 
+    const fechaMin = new Date();
+    const minAnio = anioLimite -10;
+    const mesMin = fechaMin.getMonth() + 1;
+    const diaMin = fechaMin.getDate();
+    const minDate = `${minAnio}-${mesMin}-${diaMin}`;
+    setMinDate(dayjs(minDate));
     return anioLimite;
   }
 
@@ -1720,7 +1724,7 @@ function Prueba() {
                     views={["year", "month", "day"]}
                     style={{ display: "none" }}
                     maxDate={maxDate}
-                    minDate={dayjs(`2014-2-3`)}
+                    minDate={minDate}
                     value={fechaSeleccionada}
                   />
                 </LocalizationProvider>
