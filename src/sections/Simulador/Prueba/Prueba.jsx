@@ -13,8 +13,9 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import "dayjs/locale/es";
+
 import dayjs from "dayjs";
+import "dayjs/locale/es";
 
 import { makeStyles } from "@mui/styles";
 
@@ -141,6 +142,8 @@ function Prueba() {
 
   const [texto, setTexto] = useState(true);
   const [loadingBtn, setLoadingBtn] = useState(false);
+  
+  const [fechaActual, setFechaActual] = useState(null);
 
   const [errorInversionText, setErrorInversionText] = useState(
     "Por favor, ingresa un monto de inversión"
@@ -547,6 +550,10 @@ function Prueba() {
 
   useEffect(() => {
    fechaLimiteCalendario();
+   const now = new Date();
+   dayjs.locale('es');
+  setFechaActual(dayjs(now).format('D [de] MMMM YYYY'));
+  //  setFechaActual('7 de abril 2024');
   }, []);
 
   useEffect(() => {
@@ -1768,13 +1775,13 @@ function Prueba() {
                 </button>
               </div>
               <div className="align-items-center">
-                <span>Los cálculos mostrados en el simulador son basados al último valor couta de 07 de abril emitido por la SBS</span>
+                <span>Los cálculos mostrados en el simulador son basados al último valor couta de <em>{fechaActual}</em> emitido por la SBS</span>
               </div>
             </Grid>
           </div>
           
           <div>
-            <Grid item
+            <Grid item  
               xs={12}
               sm={12}
               container
