@@ -75,7 +75,6 @@ const StcResultado = () => {
         }
         let lastValue;
         let actualValue;
-        console.log('valor del dia', dia)
         switch (step) {
           case 1:
             lastValue = valorCuotaLast.rows[dia - 1].fund1;
@@ -103,7 +102,6 @@ const StcResultado = () => {
 
         let rentabilidadF = inversionActual - inversionInicial;
         let saldoTotalF = inversionActual.toFixed(2);
-        console.log("rentabilidadF", rentabilidadF);
         var rentabilidadRedondeada = Math.round(rentabilidadF * 100) / 100;
 
         if (rentabilidadRedondeada === -0) {
@@ -150,10 +148,10 @@ const StcResultado = () => {
     });
 
     if (!animationStep && inversionInicial) {
-      console.log("PLAY2");
+      // console.log("PLAY2");
       animation.goToAndPlay(0, true);
     } else {
-      console.log("REPLAY");
+      // console.log("REPLAY");
       const div = document.getElementById(`json-animation-here-${step}`);
       if (div) {
         const svgElement = div.querySelector("svg");
@@ -189,8 +187,7 @@ const StcResultado = () => {
   };
 
   const mostrarSimulador = () => {
-    console.log('entra en mostrar simulador')
-    console.log('ocultarRenta', ocultarRenta)
+
     changeVisualRentabilidad(!ocultarRenta)
     var div = document.getElementById("resultado");
     div.classList.remove("d-none");
@@ -198,10 +195,9 @@ const StcResultado = () => {
   }
 
   useEffect(() => {
-    console.log('resultado del valor ocultaREnta', ocultarRenta)
     var div = document.getElementById("resultado");
     if (ocultarRenta) {
-      console.log('entra en ocultar')
+      // console.log('entra en ocultar')
       div.classList.remove("d-none");
       div.classList.remove("oculto");
       div.classList.add("mostrar");
@@ -276,7 +272,7 @@ const StcResultado = () => {
                   <h5 className="card-title me-3 "> de {meses[mes]} {dia} del {anio} a {meses[mesActual]} {diaActual} del {anioActual} en : </h5>
                 </div>
                 <div className="col-lg-6 col-xs-12 ">
-                  <div className="d-flex">
+                  <div className="d-flex justify-content-end">
                     <div
                       className={step === 1 ? "btn-active" : "btn-inactive"}
                       onClick={() => handleFound(1)}
