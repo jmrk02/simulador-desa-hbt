@@ -47,20 +47,13 @@ const StcResultado = () => {
   const handleFound = async (step) => {
     if (mes !== null && anio !== null) {
       if (inversionInicial !== null) {
-        // console.log("mes", mes);
-        // console.log("anio", anio);
-        // console.log("dia", dia);
-        // //console.log("saldoTotal", saldoTotal);
-        // //console.log("porcentaje", porcentaje);
-        // //console.log("rentabilidad", rentabilidad);
-        // //console.log("inversionInicial", inversionInicial);
+
         setIsLoadingValues(true)
         setTotal(saldoTotal);
         setStep(step);
         setInversionIni(inversionInicial);
         const valorCuotaLast = await obtenerValorCuota(mes, anio, false);
         let valorCuotaActual = await obtenerValorCuota(mes, anio, true);
-        // console.log('valorCuotaActual TOP : ', valorCuotaActual)
         if (valorCuotaActual.rows.length === 0) {
           setIsLoadingValues(true)
           const fechaActual = new Date();
@@ -73,8 +66,6 @@ const StcResultado = () => {
 
             if (actualNewValue.rows.length !== 0) {
               setIsLoadingValues(false)
-              // console.log('mesNewActual RESULTADO: ', mesNewActual)
-              // console.log('actualNewValue RESULTADO: ', actualNewValue)
               valorCuotaActual = actualNewValue
               break;
             }
@@ -82,16 +73,13 @@ const StcResultado = () => {
         } else {
           setIsLoadingValues(false)
         }
-        // console.log('valorCuotaActualvalorCuotaActual :', valorCuotaActual)
         let lastValue;
         let actualValue;
         console.log('valor del dia', dia)
         switch (step) {
           case 1:
             lastValue = valorCuotaLast.rows[dia - 1].fund1;
-            console.log('valor couta fondo 1 fecha seleccion', lastValue)
             actualValue = valorCuotaActual.rows.pop().fund1;
-            console.log('valor couta fondo 1 fecha actual', actualValue)
             break;
           case 2:
             lastValue = valorCuotaLast.rows[dia - 1].fund2;
@@ -242,29 +230,24 @@ const StcResultado = () => {
   }, [fondo]);
 
   useEffect(() => {
-    // console.log(diaActual.getDay())
-    const fecha = new Date();
-    console.log('dia actuaaal',fecha.getDate())
+  
     setAnimationPlayedSecond(false);
     var div = document.getElementById("resultado");
     div.classList.add("d-none");
   }, []);
 
   useEffect(() => {
-    // console.log("mes seleccionado", mes);
-    // console.log("anio seleccionado", anio);
+  
     setInversionIni(inversionInicial);
     setTotal(saldoTotal);
     setRenta(rentabilidad);
 
     setPorcentajeGana(porcentaje);
-    // //console.log("porcentaje", porcentajetotal.toFixed(2));
     const fecha = new Date();
     const anioActual = fecha.getFullYear();
 
     const invertidoAnios = anioActual - anio;
     setInvertidoAnios(invertidoAnios);
-    // console.log("invertidoAnios", invertidoAnios);
     if (porcentajeGana !== null && invertidoAnios !== null) {
       setCompletaDatos(true);
     }
