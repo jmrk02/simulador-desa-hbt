@@ -553,7 +553,6 @@ function Prueba() {
    const now = new Date();
    dayjs.locale('es');
   setFechaActual(dayjs(now).format('D [de] MMMM YYYY'));
-  //  setFechaActual('7 de abril 2024');
   }, []);
 
   useEffect(() => {
